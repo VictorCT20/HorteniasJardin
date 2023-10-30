@@ -9,7 +9,7 @@ environ.Env.read_env()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = os.environ.get('SECRET_KEY', default='your secret key')
+SECRET_KEY = os.environ.get('SECRET_KEY', default='$h_rz#-1fwthekcjmmgakuh^7dr8nph)6od60ok8)3dl')
 
 DEBUG = 'RENDER' not in os.environ
 
