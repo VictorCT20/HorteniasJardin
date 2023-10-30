@@ -112,7 +112,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = ["templates\static"]
+STATICFILES_DIRS = []
 
 if not DEBUG:
     # Tell Django to copy statics to the `staticfiles` directory
