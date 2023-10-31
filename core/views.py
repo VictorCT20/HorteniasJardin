@@ -14,3 +14,10 @@ class ArView(View):
 
         }
         return render(request, 'ar.html', context)
+
+class UserRegisterView(View):
+    def get(self, request, *args, **kwargs):
+        context={
+
+        }
+        return render(request, 'ar.html', context)
