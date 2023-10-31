@@ -21,7 +21,7 @@ from .views import HomeView, ArView, UserRegisterView
 urlpatterns = [
     path('admin/', admin.site.urls), 
     path('', HomeView.as_view(), name="Home"),
-    path('blog/',include('blog.urls', namespace='blog')),
+    path('monitoreo/',include('monitoreo.urls', namespace='monitoreo')),
     path('ar/', ArView.as_view(), name="Ar"),
     path('user/', UserRegisterView.as_view(), name="UserRegister"),
 ]
