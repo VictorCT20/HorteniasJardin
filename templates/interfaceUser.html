@@ -13,19 +13,30 @@
             background-image: url("https://i.imgur.com/izO161A.jpg");
         }
     </style>
+    <script>
+        function textUsu(texto) {
+            const alfanumericoRegex = /^[a-zA-Z0-9]+$/;
+            return alfanumericoRegex.test(texto) && texto.length >= 3 && texto.length < 12;
+            }
+        function tieneCaracteresEspeciales(texto) {
+            const caracteresEspecialesRegex = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
+            return caracteresEspecialesRegex.test(texto);
+            }
+    </script>
 </head>
 
 <body id="fondo">
     <div class="wrapper">
         <div class="bubbles"></div>
-        <form action="" class="form">
+        <form method="POST" class="form">
+            {% csrf_token %}
             <h1 class="title">Bienvenido</h1>
             <div class="inp">
-                <input type="text" name="" id="" class="input" placeholder="Nombres">
+                <input type="text" name="name" id="name" class="input" placeholder="Nombres" required>
                 <i class="fa-solid fa-user"></i>
             </div>
             <div class="inp">
-                <input type="text" name="" id="" class="input" placeholder="Apellidos">
+                <input type="text" name="apellido" id="apellido" class="input" placeholder="Apellidos" required>
                 <i class="fa-solid fa-lock"></i>
             </div>
             <button class="submit">Comenzar</button>
