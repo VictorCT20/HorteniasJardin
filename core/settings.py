@@ -84,6 +84,10 @@ DATABASES = {
         'PASSWORD': 'tYk2AfjnxMDd6y0rdRGOjb1JkBU42Gtx',
         'HOST': 'dpg-ckvt1framefc73bjicvg-a.oregon-postgres.render.com', 
         'PORT': 5432,
+        'OPTIONS': {
+            'sslmode': 'require',
+            'sslrootcert': '/etc/ssl/certs/ca-certificates.crt',
+        }
     }
 }
 
