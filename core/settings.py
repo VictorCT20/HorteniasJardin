@@ -77,10 +77,14 @@ WSGI_APPLICATION = 'core.wsgi.application'
 #    }
 #}
 DATABASES = {
-    'default': dj_database_url.config(
-        default='postgresql://postgres:postgres@localhost:5432/mysite',
-        conn_max_age=600
-    )
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'jardindb', 
+        'USER': 'jardindb_user',
+        'PASSWORD': 'tYk2AfjnxMDd6y0rdRGOjb1JkBU42Gtx',
+        'HOST': 'dpg-ckvt1framefc73bjicvg-a.oregon-postgres.render.com', 
+        'PORT': 5432,
+    }
 }
 
 
