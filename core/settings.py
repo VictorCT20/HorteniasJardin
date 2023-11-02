@@ -32,7 +32,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'core',
-    'monitorear'
+    'monitorear',
 ]
 
 MIDDLEWARE = [
