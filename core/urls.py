@@ -7,7 +7,7 @@ urlpatterns = [
     path('', HomeView.as_view(), name="Home"),
     path('monitorear/',include('monitorear.urls', namespace='monitorear')),
     path('ar/', ArView.as_view(), name="ar"),
-    path('ar/<int:usuario_id>/', ArView.as_view(), name='ar'),
-    path('user/', UserRegisterView.as_view(), name="UserRegister"),
+    path('registro/', UserRegisterView.as_view(), name="userEntry"),
+    path('valorar/', UserRegisterView.as_view(), name="valorar"),
 ]   
     

@@ -84,10 +84,13 @@
             <p>Resultado: <span id="result-text">Ninguna</span></p>
         </div>
 
-        <div id="encuesta-container" class="button">
-            <a href="https://jardinhortensias.com/Estrellas.html">
-                <p>Encuesta</p>
-            </a>
+        <div>
+            <form method="post" action="{% url 'EncuestaView' %}">
+                {% csrf_token %}
+                <input type="hidden" name="usuario_id" value="{{ usuario_id }}">
+                <input type="hidden" name="visita_id" value="{{ visita_id }}">
+                <button id="encuesta-container" type="submit" name="action" value="EncuestaView">Encuesta</button>
+            </form>
         </div>
 
         <div id="webcam-container"></div>
