@@ -19,9 +19,12 @@ class UserEntryView(View):
                 name=name,
                 apellido=apellido
             )
-            usuario_id = nuevo_usuario.id
             nuevo_usuario.save()
-            return redirect('ar', usuario_id=usuario_id)
+            usuario_id = nuevo_usuario.id
+            context={
+                'usuario_id':usuario_id
+            }
+            return redirect('ar', context)
 
         context={
         }
