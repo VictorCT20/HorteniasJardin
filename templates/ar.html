@@ -34,22 +34,23 @@
             z-index: 1;
         }
 
+        #buttonEncuesta-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            margin: 10px; /* Agrega margen para separar el botón del borde */
+            z-index: 5;
+        }
+
         /* Estilos para el recuadro blanco del resultado */
         #encuesta-container a {
             text-decoration: none;
             cursor: pointer;
-            position: absolute;
             background-color: white;
             padding: 10px;
             border: 1px solid #ccc;
             border-radius: 4px;
-            top: 10px;
-            left: 10px;
             z-index: 1;
-        }
-
-        #encuesta-container a p {
-            margin: 0;
         }
 
         /* Estilos para el texto del resultado */
@@ -84,12 +85,12 @@
             <p>Resultado: <span id="result-text">Ninguna</span></p>
         </div>
 
-        <div>
-            <form method="post" action="{% url 'EncuestaView' %}">
+        <div id="buttonEncuesta-container">
+            <form method="post">
                 {% csrf_token %}
                 <input type="hidden" name="usuario_id" value="{{ usuario_id }}">
                 <input type="hidden" name="visita_id" value="{{ visita_id }}">
-                <button id="encuesta-container" type="submit" name="action" value="EncuestaView">Encuesta</button>
+                <button id="encuesta-container" type="submit" name="action" value="EncuestaView">Encuesta {{ usuario_id }}</button>
             </form>
         </div>
 
