@@ -35,6 +35,11 @@ INSTALLED_APPS = [
     'monitorear',
 ]
 
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    # Otros backends si los tienes
+]
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -66,6 +71,11 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'core.wsgi.application'
 
+AUTH_USER_MODEL = 'monitorear.Cuenta'
+
+# Configura la duración de la sesión en segundos (1 hora)
+SESSION_COOKIE_AGE = 5400
+
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
@@ -79,14 +89,13 @@ WSGI_APPLICATION = 'core.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'jardindb', 
-        'USER': 'jardindb_user',
-        'PASSWORD': 'tYk2AfjnxMDd6y0rdRGOjb1JkBU42Gtx',
-        'HOST': 'dpg-ckvt1framefc73bjicvg-a.oregon-postgres.render.com', 
+        'NAME': 'jardindb_cijf',
+        'USER': 'victorupn',
+        'PASSWORD': 'UOgb6Rkuen8ePiYjbpDe354pfQkgOBJ7',
+        'HOST': 'dpg-cl2tnp2uuipc738330d0-a.oregon-postgres.render.com',
         'PORT': 5432,
         'OPTIONS': {
             'sslmode': 'require',
-            'sslrootcert': '/etc/ssl/certs/ca-certificates.crt',
         }
     }
 }

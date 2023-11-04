@@ -1,7 +1,15 @@
 from django.views.generic import View
 from django.shortcuts import render, redirect, get_object_or_404
+from django.utils.decorators import method_decorator
 from monitorear.models import Usuario, Visitas, Calificacion
 from datetime import *
+from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.models import User 
+from django.contrib.auth.decorators import user_passes_test
+
+# Define la función de prueba para verificar si el usuario es administrador
+def es_admin(user):
+    return user.is_admin
 
 class HomeView(View):
     def get(self, request, *args, **kwargs):
@@ -47,9 +55,10 @@ class ArView(View):
         elif action == 'vista_2':
             return redirect('vista_2')
 
-
+@method_decorator(login_required, name='dispatch')
 class UserRegisterView(View):
     def get(self, request, *args, **kwargs):
+
         context={
         } 
         return render(request, 'interfaceUser.html', context)
@@ -71,7 +80,7 @@ class UserRegisterView(View):
 
         context={ }
         return render(request, 'interfaceUser.html', context)
-
+        
 
 
 class EncuestaView(View):

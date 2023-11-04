@@ -9,5 +9,6 @@ urlpatterns = [
     path('ar/', ArView.as_view(), name="ar"),
     path('registro/', UserRegisterView.as_view(), name="userEntry"),
     path('valorar/', EncuestaView.as_view(), name="valorar"),
+    path('accounts/', include('django.contrib.auth.urls'))
 ]   
     
