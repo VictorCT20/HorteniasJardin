@@ -38,14 +38,6 @@ class Planta(models.Model):
     detalle = models.TextField()
     curiosidad = models.TextField()
     propiedades = models.TextField()
-    precio = models.DecimalField(
-        max_digits=10,  # Número máximo de dígitos en el precio
-        decimal_places=2,  # Número de decimales
-        validators=[
-            MinValueValidator(limit_value=0.01),  # Precio mínimo
-            MaxValueValidator(limit_value=1000.00)  # Precio máximo
-        ]
-    )
     def __str__(self):
         return f"Nombre de la planta: {self.nombrePlanta}, Especie: {self.nombreEspecie}, Tiempo de vida: {self.tiempoVida}"
 

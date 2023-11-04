@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Lector QR</title>
+  <script src="https://rawgit.com/sitepoint-editors/jsqrcode/master/src/qr_packed.js"></script>
+  <script>
+    #mensajes {
+        display: none;
+      }
+  </script>
+</head>
+<body>
+
+  <video id="qr-video"></video>
+  <div id="mensajes"></div>
+
+  <script>
+
+    const video = document.getElementById('qr-video');
+
+    // Inicializar cámara
+    navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } }).then(function(stream) {
+      video.srcObject = stream;
+      video.play();
+    });
+
+    // Escaneo de código
+    const qrCodeReader = new QrCodeReader();
+    qrCodeReader.callback = contenido => {
+      
+        if(contenido === 'usuario logeado para usar ar') {
+      
+            document.getElementById('mensajes').innerText = 'QR valido!';
+            // login
+          
+          } else {
+    
+            document.getElementById('mensajes').innerText = 'QR inválido';
+    
+          }
+
+    };
+    qrCodeReader.decodeFromCamera(video);
+
+
+  </script>
+
+</body>
+</html>

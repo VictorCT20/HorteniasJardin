@@ -1,7 +1,7 @@
 from django.views.generic import View
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.decorators import method_decorator
-from monitorear.models import Usuario, Visitas, Calificacion
+from monitorear.models import Usuario, Visitas, Calificacion, Cuenta
 from datetime import *
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.models import User 
@@ -11,11 +11,14 @@ from django.contrib.auth.decorators import user_passes_test
 def es_admin(user):
     return user.is_admin
 
+class QrView(View):
+    def get(self, request, *args, **kwargs):
+        context={}
+        return render(request, 'registration/qr.html', context)
+
 class HomeView(View):
     def get(self, request, *args, **kwargs):
-        context={
-
-        }
+        context={}
         return render(request, 'index.html', context)
 
 class ArView(View):
@@ -58,9 +61,7 @@ class ArView(View):
 @method_decorator(login_required, name='dispatch')
 class UserRegisterView(View):
     def get(self, request, *args, **kwargs):
-
-        context={
-        } 
+        context={ } 
         return render(request, 'interfaceUser.html', context)
 
     def post(self, request, *args, **kwargs):
