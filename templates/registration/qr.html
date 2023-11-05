@@ -26,17 +26,19 @@
 
         /* Estilos para el contenedor del botón */
         .button-container {
-            margin-bottom: 10px; /* Agrega un margen inferior de 10px al contenedor del botón */
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            position: absolute;
+            bottom: 20px; /* Ajusta la posición del contenedor del botón */
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            z-index: 2;
         }
 
         /* Estilos para el botón de escaneo */
         .scan-button {
             background-color: #007BFF;
             color: #fff;
-            padding: 10px 20px;
+            padding: 15px 30px; /* Aumenta el tamaño del botón */
             border: none;
             cursor: pointer;
         }
@@ -66,10 +68,18 @@
         });
         Instascan.Camera.getCameras().then(function (cameras) {
             if (cameras.length > 0) {
-                scanner.start(cameras[0]);
+                let selectedCamera = cameras.find(function(camera) {
+                    return camera.name.indexOf('back') !== -1; // Buscar una cámara con "back" en el nombre
+                });
+        
+                if (!selectedCamera) {
+                    selectedCamera = cameras[0]; // Si no se encuentra una cámara trasera, utiliza la primera disponible
+                }
+        
+                scanner.start(selectedCamera);
             } else {
                 console.error('No cameras found.');
-                alert('camara no encontrada');
+                alert('Cámara no encontrada');
             }
         }).catch(function (e) {
             console.error(e);
