@@ -6,15 +6,35 @@ from datetime import *
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.models import User 
 from django.contrib.auth.decorators import user_passes_test
+from django.contrib.auth import authenticate, login
+import json
 
 # Define la función de prueba para verificar si el usuario es administrador
 def es_admin(user):
     return user.is_admin
 
-class QrView(View):
+class QrView(View): 
     def get(self, request, *args, **kwargs):
         context={}
         return render(request, 'registration/qr.html', context)
+    def post(self, request, *args, **kwargs):
+        if request.method == 'POST':
+            data = json.loads(request.body)
+            content = data['contenido_qr']
+            print("content: " + content)
+            if(content == 'usuario logeado para usar ar'):
+                user = authenticate(username='user', password='Hortensias2023')
+                login(request, user)
+                print('es el qr correcto')
+
+                return redirect('userEntry')
+            else:
+                print('no es el qr correcto') 
+
+                return redirect('logqr')
+            
+        context={}
+        return render(request, 'registration/qr.html', context) 
 
 class HomeView(View):
     def get(self, request, *args, **kwargs):
@@ -38,7 +58,7 @@ class ArView(View):
         else: 
             visita = get_object_or_404(Visitas, usuario=usuario)
             visita_id = visita.id 
-            
+             
         context = {
             'usuario_id': usuario_id,
             'visita_id' : visita_id
@@ -61,6 +81,7 @@ class ArView(View):
 @method_decorator(login_required, name='dispatch')
 class UserRegisterView(View):
     def get(self, request, *args, **kwargs):
+        print('a')
         context={ } 
         return render(request, 'interfaceUser.html', context)
 

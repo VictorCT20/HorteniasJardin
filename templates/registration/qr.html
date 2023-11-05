@@ -1,49 +1,97 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Lector QR</title>
-  <script src="https://rawgit.com/sitepoint-editors/jsqrcode/master/src/qr_packed.js"></script>
-  <script>
-    #mensajes {
-        display: none;
-      }
-  </script>
-</head>
-<body>
+  <head>
+    <title>Instascan</title>
+    <script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
+    <style>
+        /* Estilos para el contenedor que ocupa toda la pantalla */
+        .full-screen-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden; /* Para ocultar el desbordamiento */
+        }
 
-  <video id="qr-video"></video>
-  <div id="mensajes"></div>
+        /* Estilos para el video dentro del contenedor */
+        .full-screen-video {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+  </head>
+  <body>
 
-  <script>
+    <div class="full-screen-container">
+        <!-- Video que ocupará toda la pantalla -->
+        <video id="preview" class="full-screen-video" autoplay></video>
+    </div>
+    <form id="redirectForm" method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="content" id="contenidoQR">
+    </form>
 
-    const video = document.getElementById('qr-video');
+    <script type="text/javascript">
 
-    // Inicializar cámara
-    navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } }).then(function(stream) {
-      video.srcObject = stream;
-      video.play();
-    });
+        let scanner = new Instascan.Scanner({ 
+            video: document.getElementById('preview'),
+            scanPeriod : 5,
+            mirror: false
+        });
+        Instascan.Camera.getCameras().then(function (cameras) {
+            if (cameras.length > 0) {
+                scanner.start(cameras[0]);
+            } else {
+                console.error('No cameras found.');
+                alert('camara no encontrada');
+            }
+        }).catch(function (e) {
+            console.error(e);
+            alert('Error: ' + e);
+        });
 
-    // Escaneo de código
-    const qrCodeReader = new QrCodeReader();
-    qrCodeReader.callback = contenido => {
-      
-        if(contenido === 'usuario logeado para usar ar') {
-      
-            document.getElementById('mensajes').innerText = 'QR valido!';
-            // login
-          
-          } else {
-    
-            document.getElementById('mensajes').innerText = 'QR inválido';
-    
-          }
+        
+        scanner.addListener('scan', function (content) {
+            document.getElementById('contenidoQR').value = content;
+            //document.getElementById('redirectForm').submit();
+            const form = document.getElementById('redirectForm');
 
-    };
-    qrCodeReader.decodeFromCamera(video);
+            let csrfToken = "{{ csrf_token }}"; // Asegúrate de que csrftoken esté definido correctamente
+
+            // Crear una solicitud POST manualmente con el token CSRF
+            fetch('/logqr/', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'X-CSRFToken': csrftoken,
+                },
+                body: JSON.stringify({
+                  contenido_qr: content
+                }) 
+              })
+
+        });
 
 
-  </script>
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+                return cookieValue;
+            }
 
-</body>
+          const csrftoken = getCookie('csrftoken');
+
+    </script>
+  </body>
 </html>
