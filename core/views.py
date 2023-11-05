@@ -91,7 +91,6 @@ class ReservaView(View):
 
         return render(request, 'reservas.html', context) 
 
-
 @method_decorator(login_required, name='dispatch')
 class UserRegisterView(View):
     def get(self, request, *args, **kwargs):
@@ -117,7 +116,6 @@ class UserRegisterView(View):
         context={ }
         return render(request, 'interfaceUser.html', context)
         
-
 @method_decorator(login_required, name='dispatch')
 class EncuestaView(View):
     def get(self, request, *args, **kwargs):

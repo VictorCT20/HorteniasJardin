@@ -1,0 +1,98 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Página Web</title>
+    <link rel="stylesheet" href="visita.css">
+    <link rel="icon" type="image/x-icon" href="assets/flor.ico" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+
+<body style="background: linear-gradient(to right, #3498db, #b5f3cf,#9b59b6);">
+    <header class="text-white p-3" style="background: linear-gradient(50deg, rgb(3, 26, 240), #466999);">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-md-6">
+                    <p
+                        style="font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; font-weight: bold; font-size: 1.5rem;">
+                        Jardín de las Hortensias</p>
+                    <p style="font-family: 'Times New Roman', Times, serif; font-weight: bold; font-size: 1rem;">
+                        Bienvenido, JOSE</p>
+                </div>
+                <div class="col-12 col-md-6 text-md-end mt-2 mt-md-0">
+                    <a class="btn me-2 text-white fw-bold" href={%url 'monitorear:movisita'%}>Visitas</a>
+                    <a class="btn me-2 text-white fw-bold" href={%url 'monitorear:moventa'%}>Ventas</a>
+                    <a class="btn me-2 text-white fw-bold" href={%url 'monitorear:moencuesta'%}>Calificaciones</a>
+                    <a type="button" class=" text-center btn-close btn-close-white" aria-label="Close" href={%url 'Home'%}></a>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="container col-md-10" style="margin-top: 20px;">
+        <h2 style="text-align: center; font-family: cursive;font-size: x-large; font-weight: bold;">VENTAS
+            REGISTRADAS</h2>
+        <label class="text-white" style="font-weight: bold;" for="fechaFiltro">Selecciona una fecha:</label>
+        <input type="date" id="fechaFiltro" class="form-control">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Planta</th>
+                    <th scope="col">Cantidad</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for venta in ventas %}
+                <tr>
+                    <th scope="row">{{ venta.id }}</th>
+                    <td>{{ venta.visita.usuario.name }} {{ venta.visita.usuario.apellido }}</td>
+                    <td>{{ venta.planta.nombrePlanta }}</td>
+                    <td>{{ venta.planta.cantidad }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="container col-md-10" style="margin-top: 20px;">
+        <h2 style="text-align: center; font-family: cursive;font-size: x-large; font-weight: bold;">RESERVAS PENDIENTES
+        </h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Planta</th>
+                    <th scope="col">Cantidad</th>
+                    <th scope="col">Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for reserva in reservas %}
+                <tr>
+                    <th scope="row">{{ reserva.id }}</th>
+                    <td>{{ reserva.visita.usuario.name }} {{ reserva.visita.usuario.apellido }}</td>
+                    <td>{{ reserva.planta.nombrePlanta }}</td>
+                    <td>{{ reserva.cantidad }}</td>
+                    <td>
+                        <div class="justify-content-md-center">
+                            <button id="realizado-{{ reserva.id }}" class="btn btn-primary me-md-2" style="border-radius: 50%;" type="button">A</button>
+                            <button id="cancelado-{{ reserva.id }}" class="btn btn-danger ms-md-2" style="border-radius: 50%;" type="button">D</button>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div>
+
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>
+</body>
+
+</html>
