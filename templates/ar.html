@@ -53,6 +53,24 @@
             z-index: 1;
         }
 
+        #buttonReserva-container {
+            position: absolute;
+            top: 0px; /* Ajusta la posición superior del contenedor */
+            right: 10px; /* Ajusta la posición derecha del contenedor */
+            margin: 10px;
+            z-index: 5;
+        }
+
+        #reserva-container a {
+            text-decoration: none;
+            cursor: pointer;
+            background-color: white;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            z-index: 1;
+        }
+
         /* Estilos para el texto del resultado */
         #result-text {
             font-weight: bold;
@@ -93,6 +111,14 @@
                 <button id="encuesta-container" type="submit" name="action" value="EncuestaView">Encuesta {{ usuario_id }}</button>
             </form>
         </div>
+        <div id="buttonReserva-container">
+            <form method="post">
+                {% csrf_token %}
+                <input type="hidden" name="usuario_id" value="{{ usuario_id }}">
+                <input type="hidden" name="visita_id" value="{{ visita_id }}">
+                <button id="reserva-container" type="submit" name="action" value="ReservaView">Reservar {{ usuario_id }}</button>
+            </form>
+        </div>
 
         <div id="webcam-container"></div>
         <div id="label-container"></div>
@@ -101,23 +127,23 @@
             <a-light type="point" intensity="1" position="0 3 0"></a-light>
             <a-entity id="llama-container" position="0 0 -1.5">
                 <a-animation attribute="position" dur="1000" to="0 0 -2" begin="move-llama"></a-animation>
-                <a-entity id="llama1" gltf-model="Llama.glb" visible="false" scale="0.27 0.1125 0.27"
+                <a-entity id="llama1" gltf-model="{% static 'ar/Llama.glb' %}" visible="false" scale="0.27 0.1125 0.27"
                     rotation="0 -45 0"></a-entity>
-                <a-image id="cuadro-image1" src="Cuadro.png" visible="false" scale="0.84 0.25 0.49"
+                <a-image id="cuadro-image1" src="{% static 'ar/Texto.png' %}" visible="false" scale="0.84 0.25 0.49"
                     position="0 0.2 0"></a-image>
                 <a-text id="cuadro-text1" value="" scale="0.3 0.15 0.3" color="black" text-align="center"
                     position="-0.32 0.22 0.1"></a-text>
                 <a-text id="cuadro-text2" value="" scale="0.3 0.15 0.3" color="black" text-align="center"
                     position="-0.1 0.17 0.1" font-weight="bold"></a-text>
 
-                <a-image id="cuadro1" src="cuadro.png" visible="false" scale="0.84 0.25 0.49" position="0.75 0.1 1.2"
+                <a-image id="cuadro1" src="{% static 'ar/Cuadro.png' %}" visible="false" scale="0.84 0.25 0.49" position="0.75 0.1 1.2"
                     rotation="0 -75 0"></a-image>
                 <a-text id="text1" value="" scale="0.15 0.1 0.1" color="black" text-align="center"
                     position="0.52 0.09 1" rotation="0 -75 0"></a-text>
                 <a-text id="text3" value="" scale="0.15 0.1 0.1" color="black" text-align="center"
                     position="0.54 0.06 1.1" rotation="0 -75 0"></a-text>
 
-                <a-image id="cuadro2" src="cuadro.png" visible="false" scale="0.84 0.25 0.49" position="-0.75 0.1 1.2"
+                <a-image id="cuadro2" src="{% static 'ar/Cuadro.png' %}" visible="false" scale="0.84 0.25 0.49" position="-0.75 0.1 1.2"
                     rotation="0 75 0"></a-image>
                 <a-text id="text2" value="" scale="0.16 0.1 0.1" color="black" text-align="center"
                     position="-0.83 0.1 1.55" rotation="0 75 0"></a-text>

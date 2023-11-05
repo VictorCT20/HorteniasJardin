@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path, include
-from .views import HomeView, ArView, UserRegisterView, EncuestaView, QrView
+from .views import HomeView, ArView, UserRegisterView, EncuestaView, QrView, ReservaView
 
 urlpatterns = [
     path('logqr/', QrView.as_view(), name="logqr"),
@@ -10,6 +10,7 @@ urlpatterns = [
     path('ar/', ArView.as_view(), name="ar"),
     path('registro/', UserRegisterView.as_view(), name="userEntry"),
     path('valorar/', EncuestaView.as_view(), name="valorar"),
+    path('reservar/', ReservaView.as_view(), name="reservar"),
     path('accounts/', include('django.contrib.auth.urls')),
 ]   
     

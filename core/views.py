@@ -1,7 +1,7 @@
 from django.views.generic import View
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.decorators import method_decorator
-from monitorear.models import Usuario, Visitas, Calificacion, Cuenta
+from monitorear.models import *
 from datetime import *
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.models import User 
@@ -37,6 +37,7 @@ class HomeView(View):
         context={}
         return render(request, 'index.html', context)
 
+@method_decorator(login_required, name='dispatch')
 class ArView(View):
     def get(self, request, *args, **kwargs):
         usuario_id = request.session.get('usuario_id')  # Obtiene el usuario_id de la variable de sesión
@@ -71,8 +72,25 @@ class ArView(View):
         # Redirige a la vista apropiada según el botón presionado
         if action == 'EncuestaView':
             return redirect('valorar')
-        elif action == 'vista_2':
-            return redirect('vista_2')
+        elif action == 'ReservaView':
+            return redirect('reservar')
+
+@method_decorator(login_required, name='dispatch')
+class ReservaView(View):
+    def get(self, request, *args, **kwargs):
+        usuario_id = request.session.get('usuario_id') 
+        visita_id = request.session.get('visita_id') 
+        plantas = Planta.objects.all()
+        context={
+            'usuario_id':usuario_id, 
+            'visita_id':visita_id,
+            'plantas':plantas
+        } 
+        return render(request, 'reservas.html', context) 
+    def post(self, request, *args, **kwargs):
+
+        return render(request, 'reservas.html', context) 
+
 
 @method_decorator(login_required, name='dispatch')
 class UserRegisterView(View):
@@ -100,7 +118,7 @@ class UserRegisterView(View):
         return render(request, 'interfaceUser.html', context)
         
 
-
+@method_decorator(login_required, name='dispatch')
 class EncuestaView(View):
     def get(self, request, *args, **kwargs):
         usuario_id = request.session.get('usuario_id') 

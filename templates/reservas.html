@@ -1,0 +1,184 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Tabla de plantas</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/styleRe.css' %}" type="text/css">
+    <style>
+        /* Estilos para la tabla y el botón aquí */
+        table {
+        width: 80%;
+        margin: 150px auto;
+        border-collapse: collapse;
+        background-color: #026ea0d4;
+        box-shadow: 0 5px 6px rgba(0, 202, 195, 0.666);
+        border-radius: 10px; /* Bordes curveados para la tabla */
+        }
+
+        caption {
+        font-size: 24px;
+        font-weight: bold;
+        padding: 10px;
+        background-color: #158cc0;
+        color: #ffffff;
+        border-radius: 5px; /* Bordes curveados para el encabezado */
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Efecto de relieve tipo 3D para el texto */
+        }
+
+        thead th {
+        background-color: #158cc0;
+        color: #fff;
+        padding: 10px;
+        border-radius: 1px; /* Bordes curveados para el encabezado */
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Efecto de relieve tipo 3D para el texto */
+        }
+
+        tbody td {
+        padding: 10px;
+        text-align: center;
+        border-radius: 580px; /* Bordes curveados para el encabezado */
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Efecto de relieve tipo 3D para el texto */
+        color: #ffffff; /* Color de las letras dentro de la tabla */
+        }
+
+        /* Estilos para el botón */
+        .btn {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: #fff;
+        font-size: 16px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        }
+
+        .btn:hover {
+        background-color: #0056b3;
+        }
+
+        /* Estilos para centrar el botón */
+        .center-btn {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 20px;
+        }
+
+        /* Estilos para los botones de suma y resta */
+        .quantity-buttons {
+        display: flex;
+        align-items: center;
+        justify-content: center; /* Centrar verticalmente los elementos */
+        }
+
+        .quantity-button {
+        background-color: #007bff;
+        color: #ffffff;
+        font-size: 18px;
+        border: none;
+        border-radius: 50%;
+        width: 25px;
+        height: 25px;
+        margin: 0 8px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        }
+
+        .quantity-button:hover {
+        background-color: #0056b3;
+        }
+
+        /* Estilos para el icono "X" en la esquina superior derecha */
+        .close-icon {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        font-size: 24px; /* Tamaño del icono */
+        color: #fefefe; /* Color del icono */
+        cursor: pointer;
+        }
+
+        /* Estilos para el fondo de la página */
+        body {
+        background-image: url('https://i.imgur.com/UYIkakA.jpg');
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: cover;
+        background-position: center center;
+        margin: 0;
+        padding: 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Icono "X" en la esquina superior derecha -->
+    <div class="close-icon" id="close-icon">
+        <i class="fas fa-times"></i>
+    </div>
+
+    <!-- Resto de tu contenido HTML -->
+    <table>
+        <caption>Tabla de plantas</caption>
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Especie</th>
+                <th>Cantidad</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for planta in plantas %}
+            <tr>
+                <td>{{ planta.nombrePlanta }}</td>
+                <td>{{ planta.nombreEspecie }}</td>
+                <td class="quantity-buttons">
+                <button class="quantity-button" onclick="decrementQuantity(0)">-</button>
+                <span id="quantity-0">0</span>
+                <button class="quantity-button" onclick="incrementQuantity(0)">+</button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="center-btn">
+        <button type="button" class="btn btn-primary" onclick="reservar()">Reservar</button>
+    </div>
+
+    <script>
+        // Función para decrementar la cantidad
+        function decrementQuantity(index) {
+        const quantityElement = document.getElementById('quantity-' + index);
+        let quantity = parseInt(quantityElement.innerText, 10);
+        if (quantity > 0) {
+            quantity -= 1;
+            quantityElement.innerText = quantity;
+        }
+        }
+
+        // Función para incrementar la cantidad
+        function incrementQuantity(index) {
+        const quantityElement = document.getElementById('quantity-' + index);
+        let quantity = parseInt(quantityElement.innerText, 10);
+        quantity += 1;
+        quantityElement.innerText = quantity;
+        }
+
+        // Función para reservar
+        function reservar() {
+        alert("¡Reserva realizada!");
+        }
+
+        // Función para cerrar la página
+        document.getElementById("close-icon").addEventListener("click", function() {
+        if (confirm("¿Estás seguro de que deseas salir?")) {
+            window.close();
+        }
+        });
+    </script>
+</body>
+</html>
