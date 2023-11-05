@@ -7,7 +7,6 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.models import User 
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth import authenticate, login
-import json
 
 # Define la función de prueba para verificar si el usuario es administrador
 def es_admin(user):
@@ -19,22 +18,19 @@ class QrView(View):
         return render(request, 'registration/qr.html', context)
     def post(self, request, *args, **kwargs):
         if request.method == 'POST':
-            data = json.loads(request.body)
-            content = data['contenido_qr']
+            content = request.POST.get('content')
             print("content: " + content)
             if(content == 'usuario logeado para usar ar'):
                 user = authenticate(username='user', password='Hortensias2023')
                 login(request, user)
                 print('es el qr correcto')
-
                 return redirect('userEntry')
             else:
                 print('no es el qr correcto') 
-
                 return redirect('logqr')
             
         context={}
-        return render(request, 'registration/qr.html', context) 
+        return render(request, 'interfaceUser.html', context)
 
 class HomeView(View):
     def get(self, request, *args, **kwargs):
