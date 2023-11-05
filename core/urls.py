@@ -1,9 +1,9 @@
 from django.contrib import admin
 from django.urls import path, include
-from .views import HomeView, ArView, UserRegisterView, EncuestaView
+from .views import HomeView, ArView, UserRegisterView, EncuestaView, QrView
 
 urlpatterns = [
-    path('logqr/', LogView.as_view(), name="logqr"),
+    path('logqr/', QrView.as_view(), name="logqr"),
     path('admin/', admin.site.urls), 
     path('', HomeView.as_view(), name="Home"),
     path('monitorear/',include('monitorear.urls', namespace='monitorear')),
