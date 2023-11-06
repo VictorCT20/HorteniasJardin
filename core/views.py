@@ -94,7 +94,6 @@ class ReservaView(View):
 @method_decorator(login_required, name='dispatch')
 class UserRegisterView(View):
     def get(self, request, *args, **kwargs):
-        print('a')
         context={ } 
         return render(request, 'interfaceUser.html', context)
 

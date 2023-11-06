@@ -39,6 +39,20 @@ class VentasMoniView(View):
         return render(request, 'monitorear/Ventas.html', context)
 
     def post(self, request, *args, **kwargs):  
-        context={ }
-        return render(request, 'monitorear/Ventas.html', context)
+        print("a ver")
+        action = request.POST.get('action')
+        reserva_id = request.POST.get('reserva_id')
+        reserva = get_object_or_404(Reserva, id=reserva_id)
+        if action == 'Realizado':
+            nueva_venta = Venta(
+                cantidad=reserva.cantidad,
+                planta=reserva.planta,
+                visita=reserva.visita,
+            )
+            nueva_venta.save()
+            reserva.delete()
+            return redirect('monitorear:moventa')
+        elif action == 'Cancelado':
+            reserva.delete()
+            return redirect('monitorear:moventa')
 
