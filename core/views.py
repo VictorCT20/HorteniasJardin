@@ -46,6 +46,7 @@ class ArView(View):
         usuario = get_object_or_404(Usuario, id=usuario_id)
         # Verifica si ya existe una visita para este usuario
         existing_visita = Visitas.objects.filter(usuario=usuario).first()
+        plantas = Planta.objects.all()
         
         if not existing_visita:
             # No existe una visita, crea una nueva
@@ -58,7 +59,8 @@ class ArView(View):
              
         context = {
             'usuario_id': usuario_id,
-            'visita_id' : visita_id
+            'visita_id' : visita_id,
+            'plantas' : plantas
         }
 
         return render(request, 'ar.html', context)

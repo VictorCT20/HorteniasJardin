@@ -129,10 +129,10 @@
                 <a-animation attribute="position" dur="1000" to="0 0 -2" begin="move-llama"></a-animation>
                 <a-entity id="llama1" gltf-model="{% static 'ar/alpaca.glb' %}" visible="false" scale="0.27 0.1125 0.27"
                     rotation="0 -45 0"></a-entity>
-                <a-image id="cuadro-image1" src="{% static 'ar/Titulo.png' %}" visible="true" scale="0.84 0.5 0.49"
+                <a-image id="cuadro-image1" src="{% static 'ar/Titulo.png' %}" visible="false" scale="1 0.5 0.49"
                     position="0 0.3 0"></a-image>
-                <a-text id="cuadro-text1" value="Lirio" scale="0.3 0.15 0.3" color="black" text-align="center" text-anchor="align: center"
-                    position="0 0.275 0.1" font-weight="bold"></a-text>
+                <a-text id="cuadro-text1" value="" scale="0.3 0.15 0.3" color="black" text-align="center" text-anchor="align: center"
+                    position="-0.15 0.275 0.1" font-weight="bold"></a-text>
 
                 <a-image id="cuadro1" src="{% static 'ar/Cuadro.png' %}" visible="false" scale="0.84 0.25 0.49" position="0.75 0.1 1.2"
                     rotation="0 -75 0"></a-image>
@@ -236,35 +236,35 @@
                 const llamaEntity = document.querySelector('#llama1');
                 const cuadroImage = document.querySelector('#cuadro-image1');
                 const cuadroText1 = document.querySelector('#cuadro-text1');
-                
+                /*
                 //const cuadroText2 = document.querySelector('#cuadro-text2');
                 const cuadro1 = document.querySelector('#cuadro1');
                 const cuadro2 = document.querySelector('#cuadro2');
                 const Text1 = document.querySelector('#text1');
                 const Text2 = document.querySelector('#text2');
-                const Text3 = document.querySelector('#text3');
+                const Text3 = document.querySelector('#text3');*/
 
                 // Define colores para cada clase
                 const colors = {
-                    "Hortensia": "blue",
-                    "Hortensia1": "Asiatico",
-                    "Hortensia2": "Color depende del sol",
-                    "Hortensia3": "Constante",
+                    "Hortensias": "blue",
                     "Cartucho": "green",
-                    "Cartucho1": "Cajamarquino",
-                    "Cartucho2": "Brota en tiempo de lluvia",
-                    "Cartucho3": "1 mes",
                     "Lirio": "yellow",
-                    "Lirio1": "Griego",
-                    "Lirio2": "Habita en zonas montanosas",
-                    "Lirio3": "Constante",
                     "Anturia": "orange",
-                    "Anturia1": "Selva",
-                    "Anturia2": "Propiedades descontaminantes",
-                    "Anturia3": "4  meses",
                     "Veronica": "purple",
-                    "Veronica1": "Oceania",
-                    "Veronica2": "80 cm de altura",
+                    "Cipress": "Asiatico",
+                    "Duranta Erecta": "Color depende del sol",
+                    "Helecho Serrucho": "Constante",
+                    "Planta de Curry": "Cajamarquino",
+                    "Aloe Vera": "Brota en tiempo de lluvia",
+                    "Kalanchoe": "1 mes",
+                    "Palmera Phoenix": "Griego",
+                    "Planta de dinero": "Habita en zonas montanosas",
+                    "Captus": "Constante",
+                    "Irese Herbstii": "Selva",
+                    "Geranio Pensamiento": "Propiedades descontaminantes",
+                    "Geranio Hiedra": "4  meses",
+                    "Cinta Bariegada": "Oceania",
+                    "Lirio": "80 cm de altura",
                     "Veronica3": "Constante"
                     // Agrega más colores y clases según tus necesidades
                 };
@@ -274,26 +274,26 @@
                     llamaContainer.emit('move-llama');
                     llamaEntity.setAttribute('visible', 'true');
                     cuadroImage.setAttribute('visible', 'true');
-                    cuadro1.setAttribute('visible', 'true');
-                    cuadro2.setAttribute('visible', 'true');
+                    //cuadro1.setAttribute('visible', 'true');
+                    //cuadro2.setAttribute('visible', 'true');
                     cuadroText1.setAttribute('text', 'value', `${resulta}`);
                     cuadroText1.setAttribute('look-at', '[camera]');
-                    console.log("Position:", position);
+                    /*
                     Text1.setAttribute('text', 'value', `Origen: ${colors[resulta + '1']}`);
                     Text1.setAttribute('look-at', '[camera]');
                     Text3.setAttribute('text', 'value', `Tiempo de vida: ${colors[resulta + '3']}`);
                     Text3.setAttribute('look-at', '[camera]');
                     Text2.setAttribute('text', 'value', `Curiosidad: ${colors[resulta + '2']}`);
-                    Text2.setAttribute('look-at', '[camera]');
+                    Text2.setAttribute('look-at', '[camera]');*/
                 } else {
                     llamaEntity.setAttribute('visible', 'false');
                     cuadroImage.setAttribute('visible', 'false');
-                    cuadro1.setAttribute('visible', 'false');
-                    cuadro2.setAttribute('visible', 'false');
+                    //cuadro1.setAttribute('visible', 'false');
+                    //cuadro2.setAttribute('visible', 'false');
                     cuadroText1.setAttribute('text', 'value', '');
-                    Text1.setAttribute('text', 'value', ``);
-                    Text2.setAttribute('text', 'value', ``);
-                    Text3.setAttribute('text', 'value', ``);
+                    //Text1.setAttribute('text', 'value', ``);
+                    //Text2.setAttribute('text', 'value', ``);
+                    //Text3.setAttribute('text', 'value', ``);
                 }
 
                 resultText.textContent = resulta;
