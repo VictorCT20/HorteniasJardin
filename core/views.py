@@ -88,11 +88,30 @@ class ReservaView(View):
         } 
         return render(request, 'reservas.html', context) 
     def post(self, request, *args, **kwargs):
+        if request.method == 'POST':
+            planta_id = request.POST['planta_id']
+            visita_id = request.POST['visita_id']
+            cantidad = request.POST['cantidadSele']
+            planta = get_object_or_404(Planta, id=planta_id) 
+            visita = get_object_or_404(Visitas, id=visita_id) 
+            nueva_reserva = Reserva(
+                planta=planta,
+                visita=visita,
+                cantidad=cantidad
+            )
+            nueva_reserva.save()
+            usuario_id = visita.usuario.id
+            # Pasa el ID como una variable de contexto en lugar de la URL
+            request.session['usuario_id'] = usuario_id
+            return redirect('ar')
 
+        context={ }
+        return render(request, 'interfaceUser.html', context)
+        
         return render(request, 'reservas.html', context) 
 
 @method_decorator(login_required, name='dispatch')
-class UserRegisterView(View):
+class UserRegisterView(View): 
     def get(self, request, *args, **kwargs):
         context={ } 
         return render(request, 'interfaceUser.html', context)

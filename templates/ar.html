@@ -127,14 +127,12 @@
             <a-light type="point" intensity="1" position="0 3 0"></a-light>
             <a-entity id="llama-container" position="0 0 -1.5">
                 <a-animation attribute="position" dur="1000" to="0 0 -2" begin="move-llama"></a-animation>
-                <a-entity id="llama1" gltf-model="{% static 'ar/Llama.glb' %}" visible="false" scale="0.27 0.1125 0.27"
+                <a-entity id="llama1" gltf-model="{% static 'ar/alpaca.glb' %}" visible="false" scale="0.27 0.1125 0.27"
                     rotation="0 -45 0"></a-entity>
-                <a-image id="cuadro-image1" src="{% static 'ar/Texto.png' %}" visible="false" scale="0.84 0.25 0.49"
-                    position="0 0.2 0"></a-image>
-                <a-text id="cuadro-text1" value="" scale="0.3 0.15 0.3" color="black" text-align="center"
-                    position="-0.32 0.22 0.1"></a-text>
-                <a-text id="cuadro-text2" value="" scale="0.3 0.15 0.3" color="black" text-align="center"
-                    position="-0.1 0.17 0.1" font-weight="bold"></a-text>
+                <a-image id="cuadro-image1" src="{% static 'ar/Titulo.png' %}" visible="true" scale="0.84 0.5 0.49"
+                    position="0 0.3 0"></a-image>
+                <a-text id="cuadro-text1" value="Lirio" scale="0.3 0.15 0.3" color="black" text-align="center" text-anchor="align: center"
+                    position="0 0.275 0.1" font-weight="bold"></a-text>
 
                 <a-image id="cuadro1" src="{% static 'ar/Cuadro.png' %}" visible="false" scale="0.84 0.25 0.49" position="0.75 0.1 1.2"
                     rotation="0 -75 0"></a-image>
@@ -170,7 +168,8 @@
             async function init() {
                 
                 //const URL = "https://teachablemachine.withgoogle.com/models/q3x-NPhmI/";
-                const URL = "https://teachablemachine.withgoogle.com/models/oHdXApnC4/";
+                //const URL = "https://teachablemachine.withgoogle.com/models/oHdXApnC4/";
+                const URL = "https://teachablemachine.withgoogle.com/models/QsnmUWGQ-/";
 
                 const modelURL = URL + "model.json";
                 const metadataURL = URL + "metadata.json";
@@ -237,7 +236,8 @@
                 const llamaEntity = document.querySelector('#llama1');
                 const cuadroImage = document.querySelector('#cuadro-image1');
                 const cuadroText1 = document.querySelector('#cuadro-text1');
-                const cuadroText2 = document.querySelector('#cuadro-text2');
+                
+                //const cuadroText2 = document.querySelector('#cuadro-text2');
                 const cuadro1 = document.querySelector('#cuadro1');
                 const cuadro2 = document.querySelector('#cuadro2');
                 const Text1 = document.querySelector('#text1');
@@ -276,10 +276,9 @@
                     cuadroImage.setAttribute('visible', 'true');
                     cuadro1.setAttribute('visible', 'true');
                     cuadro2.setAttribute('visible', 'true');
-                    cuadroText1.setAttribute('text', 'value', `Esta planta se llama:`);
+                    cuadroText1.setAttribute('text', 'value', `${resulta}`);
                     cuadroText1.setAttribute('look-at', '[camera]');
-                    cuadroText2.setAttribute('text', 'value', `${resulta}`);
-                    cuadroText2.setAttribute('look-at', '[camera]');
+                    console.log("Position:", position);
                     Text1.setAttribute('text', 'value', `Origen: ${colors[resulta + '1']}`);
                     Text1.setAttribute('look-at', '[camera]');
                     Text3.setAttribute('text', 'value', `Tiempo de vida: ${colors[resulta + '3']}`);
@@ -292,7 +291,6 @@
                     cuadro1.setAttribute('visible', 'false');
                     cuadro2.setAttribute('visible', 'false');
                     cuadroText1.setAttribute('text', 'value', '');
-                    cuadroText2.setAttribute('text', 'value', '');
                     Text1.setAttribute('text', 'value', ``);
                     Text2.setAttribute('text', 'value', ``);
                     Text3.setAttribute('text', 'value', ``);

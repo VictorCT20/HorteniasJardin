@@ -128,6 +128,7 @@
                 <th>Nombre</th>
                 <th>Especie</th>
                 <th>Cantidad</th>
+                <th>Seleccionado</th>
             </tr>
         </thead>
         <tbody>
@@ -136,9 +137,16 @@
                 <td>{{ planta.nombrePlanta }}</td>
                 <td>{{ planta.nombreEspecie }}</td>
                 <td class="quantity-buttons">
-                <button class="quantity-button" onclick="decrementQuantity(0)">-</button>
-                <span id="quantity-0">0</span>
-                <button class="quantity-button" onclick="incrementQuantity(0)">+</button>
+                <button class="quantity-button" onclick="decrementQuantity({{planta.id}})">-</button>
+                <span id="quantity-{{planta.id}}">0</span>
+                <button class="quantity-button" onclick="incrementQuantity({{planta.id}})">+</button>
+                </td>
+                <td>
+                    <input value={{planta.id}} type="hidden" id="planta_idSelec{{planta.id}}" name="planta_idSelec{{planta.id}}">
+                    <input value=0 type="hidden" id="cantidadSelec{{planta.id}}" name="cantidadSelec{{planta.id}}">
+                    <input value={{visita_id}} type="hidden" id="visita_idSelec{{planta.id}}" name="visita_idSelec{{planta.id}}">
+                    <input class="form-check-input" onclick="datos({{planta.id}})" type="radio" name="flexRadioDefault" id="flexRadioDefault">
+                    <label class="form-check-label" for="flexRadio{{planta.id}}"></label>  
                 </td>
             </tr>
             {% endfor %}
@@ -146,31 +154,48 @@
     </table>
 
     <div class="center-btn">
-        <button type="button" class="btn btn-primary" onclick="reservar()">Reservar</button>
+        <form method="POST">
+            {% csrf_token %}
+            <input type="hidden" id="planta_id" name="planta_id">
+            <input type="hidden" id="cantidadSele" name="cantidadSele">
+            <input type="hidden" id="visita_id" name="visita_id">
+            <button onclick="reserva()" type="submit" class="btn btn-primary" id="seleccionado">Reservar</button>
+        </form>
+        
     </div>
 
     <script>
+
         // Función para decrementar la cantidad
         function decrementQuantity(index) {
-        const quantityElement = document.getElementById('quantity-' + index);
-        let quantity = parseInt(quantityElement.innerText, 10);
-        if (quantity > 0) {
-            quantity -= 1;
-            quantityElement.innerText = quantity;
-        }
+            const quantityElement = document.getElementById('quantity-' + index);
+            let quantity = parseInt(quantityElement.innerText, 10);
+            if (quantity > 0) {
+                quantity -= 1;
+                quantityElement.innerText = quantity;
+                document.getElementById('cantidadSelec' + index).value = quantity;
+            }
         }
 
         // Función para incrementar la cantidad
         function incrementQuantity(index) {
-        const quantityElement = document.getElementById('quantity-' + index);
-        let quantity = parseInt(quantityElement.innerText, 10);
-        quantity += 1;
-        quantityElement.innerText = quantity;
+            const quantityElement = document.getElementById('quantity-' + index);
+            const quantityElement2 = document.getElementById('cantidadSelec' + index);
+            let quantity = parseInt(quantityElement.innerText, 10);
+            quantity += 1;
+            quantityElement.innerText = quantity;
+            document.getElementById('cantidadSelec' + index).value = quantity;
         }
 
         // Función para reservar
         function reservar() {
-        alert("¡Reserva realizada!");
+            let button = document.getElementById('seleccionado');
+            let cantidad = document.getElementById('cantidadSele').value;
+            if(cantidad=="0"){
+                button.type="button";
+            }
+            else button.type="submit";
+            alert("¡Reserva realizada!");
         }
 
         // Función para cerrar la página
@@ -179,6 +204,22 @@
             window.close();
         }
         });
+
+        function datos(index){
+            let plantaId = document.getElementById('planta_idSelec' + index).value;
+            let cantidad = document.getElementById('cantidadSelec' + index).value;
+            let visitaId = document.getElementById('visita_idSelec' + index).value;
+            document.getElementById("planta_id").value = plantaId;
+            document.getElementById("cantidadSele").value = cantidad;
+            document.getElementById("visita_id").value = visitaId;
+            /*
+            let plantaId1 = document.getElementById('planta_id');
+            let cantidad1 = document.getElementById('cantidadSele');
+            let visitaId1 = document.getElementById('visita_id');
+            console.log("planta-", plantaId1.value);
+            console.log("cantidad-", cantidad1.value);
+            console.log("visita-", visitaId1.value);*/
+        }
     </script>
 </body>
 </html>
