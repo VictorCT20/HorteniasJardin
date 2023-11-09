@@ -7,6 +7,9 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.models import User 
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth import authenticate, login
+from django.utils.html import escapejs
+import json
+
 
 # Define la función de prueba para verificar si el usuario es administrador
 def es_admin(user):
@@ -47,6 +50,20 @@ class ArView(View):
         # Verifica si ya existe una visita para este usuario
         existing_visita = Visitas.objects.filter(usuario=usuario).first()
         plantas = Planta.objects.all()
+        plantas_data = [
+            {
+                'nombrePlanta': planta.nombrePlanta,
+                'nombreEspecie': planta.nombreEspecie,
+                'tiempoVida': planta.tiempoVida,
+                'Imagen': planta.Imagen,
+                'propiedades': f"{planta.propiedades}",
+                'detalle': f"{planta.detalle}",
+                'curiosidad': f"{planta.curiosidad}",
+            }
+            for planta in plantas
+        ]
+        plantas_json = json.dumps(plantas_data)
+        print(plantas_json)
         
         if not existing_visita:
             # No existe una visita, crea una nueva
@@ -60,7 +77,7 @@ class ArView(View):
         context = {
             'usuario_id': usuario_id,
             'visita_id' : visita_id,
-            'plantas' : plantas
+            'plantas_json': plantas_json 
         }
 
         return render(request, 'ar.html', context)

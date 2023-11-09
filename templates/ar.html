@@ -146,6 +146,7 @@
                 <a-text id="text2" value="" scale="0.16 0.1 0.1" color="black" text-align="center"
                     position="-0.83 0.1 1.55" rotation="0 75 0"></a-text>
             </a-entity>
+            <div id="plantas-data" data-plantas="{{ plantas_json }}"></div>
 
 
 
@@ -236,6 +237,11 @@
                 const llamaEntity = document.querySelector('#llama1');
                 const cuadroImage = document.querySelector('#cuadro-image1');
                 const cuadroText1 = document.querySelector('#cuadro-text1');
+                const textLength = cuadroText1.length;
+        
+                var plantasDataElement = document.getElementById("plantas-data");
+                var plantas = JSON.parse(plantasDataElement.getAttribute("data-plantas"));
+                let sihay=false;
                 /*
                 //const cuadroText2 = document.querySelector('#cuadro-text2');
                 const cuadro1 = document.querySelector('#cuadro1');
@@ -244,33 +250,17 @@
                 const Text2 = document.querySelector('#text2');
                 const Text3 = document.querySelector('#text3');*/
 
-                // Define colores para cada clase
-                const colors = {
-                    "Hortensias": "blue",
-                    "Cartucho": "green",
-                    "Lirio": "yellow",
-                    "Anturia": "orange",
-                    "Veronica": "purple",
-                    "Cipress": "Asiatico",
-                    "Duranta Erecta": "Color depende del sol",
-                    "Helecho Serrucho": "Constante",
-                    "Planta de Curry": "Cajamarquino",
-                    "Aloe Vera": "Brota en tiempo de lluvia",
-                    "Kalanchoe": "1 mes",
-                    "Palmera Phoenix": "Griego",
-                    "Planta de dinero": "Habita en zonas montanosas",
-                    "Captus": "Constante",
-                    "Irese Herbstii": "Selva",
-                    "Geranio Pensamiento": "Propiedades descontaminantes",
-                    "Geranio Hiedra": "4  meses",
-                    "Cinta Bariegada": "Oceania",
-                    "Lirio": "80 cm de altura",
-                    "Veronica3": "Constante"
-                    // Agrega más colores y clases según tus necesidades
-                };
+                for (const planta of plantas) { 
+                    if(planta.nombrePlanta == resulta){
+                        sihay=true;
+                    }
+                    // Realiza aquí cualquier operación que necesites con los datos de las plantas
+                }
+                console.log("hay?: ", sihay);
+                
 
                 // Cambia el color de la esfera según la clase reconocida
-                if (resulta in colors) {
+                if (sihay) {
                     llamaContainer.emit('move-llama');
                     llamaEntity.setAttribute('visible', 'true');
                     cuadroImage.setAttribute('visible', 'true');
