@@ -32,12 +32,12 @@ class Visitas(models.Model):
 class Planta(models.Model):
     nombrePlanta = models.CharField(max_length=50)
     nombreEspecie = models.CharField(max_length=50)
+    origen = models.CharField(max_length=70)
     tiempoVida = models.CharField(max_length=70)
-    Imagen = models.CharField(max_length=100)
     propiedades = models.TextField()
     detalle = models.TextField()
     curiosidad = models.TextField()
-    propiedades = models.TextField()
+    condicionAmbiental = models.TextField()
     def __str__(self):
         return f"Nombre de la planta: {self.nombrePlanta}, Especie: {self.nombreEspecie}, Tiempo de vida: {self.tiempoVida}"
 

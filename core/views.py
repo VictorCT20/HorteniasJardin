@@ -24,7 +24,7 @@ class QrView(View):
             content = request.POST.get('content')
             print("content: " + content)
             if(content == 'usuario logeado para usar ar'):
-                user = authenticate(username='user', password='Hortensias2023')
+                user = authenticate(username='user', password='usuario2023')
                 login(request, user)
                 print('es el qr correcto')
                 return redirect('userEntry')
@@ -63,7 +63,6 @@ class ArView(View):
             for planta in plantas
         ]
         plantas_json = json.dumps(plantas_data)
-        print(plantas_json)
         
         if not existing_visita:
             # No existe una visita, crea una nueva
