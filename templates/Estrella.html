@@ -1,49 +1,12 @@
 <!DOCTYPE html>
 <html lang="es" >
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Calificación De Estrellas</title>
-	<link rel='stylesheet' href='https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&amp;display=swap'>
-	<link rel="stylesheet" href="css/styleE.css" type="text/css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Calificación De Estrellas</title>
+  <link rel='stylesheet' href='https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&amp;display=swap'>
+  <link rel="stylesheet" href="{% static 'css/styleEs.css' %}">
 
-	<style>
-		/* Establece el fondo de imagen local */
-		body {
-		background-image: url(assets/img/ortencias.jpg);
-		background-size: cover;
-		background-repeat: no-repeat;
-		background-attachment: fixed;
-		height: 100vh;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		}
-
-		/* Estilos generales para las estrellas */
-		.bi-star {
-		font-size: 70px;
-		cursor: pointer;
-		color:#FFD700;
-		}
-
-		/* Estilos para estrellas marcadas */
-		.bi-star.checked {
-		color: #FFD700;
-		}
-
-		/* Estilos para estrellas desmarcadas */
-		.bi-star.unchecked {
-		color: #000000;
-		}
-
-		/* Estilos para la tarjeta translúcida */
-		.card {
-		background-color: rgba(255, 255, 255, 0.5);
-		width: 100%;
-		text-align: center;
-		}
-	</style>
 </head>
 <body>
 	<div class="card">
@@ -51,7 +14,7 @@
 		  <!-- Agrega el título dentro de la caja -->
 		  <h5 class="card-title">Jardín de las hortensias</h5>
 <!-- partial:index.partial.html -->
-<form class="rating">
+<form id="#form" class="rating">
 	<div class="card"><br>
 	<div class="rating__stars">
 		<input id="rating-1" class="rating__input rating__input-1" type="radio" name="rating" value="1">
@@ -172,46 +135,15 @@
 	</div>
 </form>
 <!--caja de comentarios-->
-<div id="comentarioDiv" style="display: none;">
-	<div class="form-group">
-	  <label for="comentario">Comentario:</label>
-	  <textarea class="form-control" id="comentario" rows="3"></textarea>
-	</div>
-  </div>
-  <button class="btn btn-primary" onclick="MostrarComentario()">Salir</button>
+<div class="centered-container">
+    <div id="commentForm" style="display: none;">
+        <label for="comments">Comentarios:</label><br>
+        <textarea id="comments" name="comments" rows="4" cols="50"></textarea><br>
+        <button type="submit" class="submitButton">Enviar</button>
+    </div>
+    <div id="displayComments"></div>
+</div>
 <!-- partial -->
-  <script src="js/scriptE.js"></script>
-  <script defer>
-
-    var contador = 0;
-
-    function calificar(item) {
-      let index = item.id[0];
-      let nombre = item.id.substring(1);
-
-      for (let i = 1; i <= 5; i++) {
-        let estrella = document.getElementById(i + nombre);
-
-        if (i <= index) {
-          estrella.classList.remove("unchecked");
-          estrella.classList.add("checked");
-        } else {
-          estrella.classList.remove("checked");
-          estrella.classList.add("unchecked");
-        }
-      }
-
-      contador = index;
-
-      // Mostrar el campo de comentario después de calificar
-      document.getElementById("comentarioDiv").style.display = "block";
-    }
-
-    function MostrarComentario() {
-        var comentario = document.getElementById("comentario").value;
-        alert("Gracias por tu participación");
-    }
-    
-  </script>
+	<script src= "{% static 'js/scriptEs.js' %}" ></script>
 </body>
 </html>
