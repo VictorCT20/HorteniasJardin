@@ -108,7 +108,7 @@
                 {% csrf_token %}
                 <input type="hidden" name="usuario_id" value="{{ usuario_id }}">
                 <input type="hidden" name="visita_id" value="{{ visita_id }}">
-                <button id="encuesta-container" type="submit" name="action" value="EncuestaView">Encuesta {{ usuario_id }}</button>
+                <button id="encuesta-container" type="submit" name="action" value="EncuestaView">Encuesta</button>
             </form>
         </div>
         <div id="buttonReserva-container">
@@ -116,7 +116,7 @@
                 {% csrf_token %}
                 <input type="hidden" name="usuario_id" value="{{ usuario_id }}">
                 <input type="hidden" name="visita_id" value="{{ visita_id }}">
-                <button id="reserva-container" type="submit" name="action" value="ReservaView">Reservar {{ usuario_id }}</button>
+                <button id="reserva-container" type="submit" name="action" value="ReservaView">Reservar</button>
             </form>
         </div>
 
@@ -124,27 +124,51 @@
         <div id="label-container"></div>
         <a-scene arjs>
             <a-camera position="0 0 0" rotation-reader></a-camera>
-            <a-light type="point" intensity="1" position="0 3 0"></a-light>
-            <a-entity id="llama-container" position="0 0 -1.5">
+            <a-light type="point" intensity="1" position="1 3 0"></a-light>
+            <a-light type="point" intensity="1" position="-1 3 0"></a-light>
+            <a-entity id="llama-container" position="0 0 0">
+                <!--Centro-->
                 <a-animation attribute="position" dur="1000" to="0 0 -2" begin="move-llama"></a-animation>
-                <a-entity id="llama1" gltf-model="{% static 'ar/alpaca.glb' %}" visible="false" scale="0.27 0.1125 0.27"
-                    rotation="0 -45 0"></a-entity>
-                <a-image id="cuadro-image1" src="{% static 'ar/Titulo.png' %}" visible="false" scale="1 0.5 0.49"
-                    position="0 0.3 0"></a-image>
-                <a-text id="cuadro-text1" value="" scale="0.3 0.15 0.3" color="black" text-align="center" text-anchor="align: center"
-                    position="-0.15 0.275 0.1" font-weight="bold"></a-text>
+                <a-entity id="llama1" gltf-model="{% static 'ar/alpaca.glb' %}" visible="true" scale="0.4 0.3 0.4"
+                    rotation="0 -45 0" position="0.7 -0.3 -2"></a-entity>
+                <a-entity id="llama2" gltf-model="{% static 'ar/alpaca.glb' %}" visible="true" scale="0.4 0.3 0.4"
+                    rotation="0 45 0" position="-0.7 -0.3 -2"></a-entity>
+                <a-image id="cuadro-image1" src="{% static 'ar/Titulo.png' %}" visible="true" scale="1.2 1.1 0.49"
+                    position="0 0.32 -2"></a-image>
+                <a-text id="text-nombreP" value="" scale="0.3 0.15 0.3" color="black" text-align="center" text-anchor="align: center"
+                    position="-0.15 0.32 -1.9" font-weight="bold"></a-text>
+                <a-text id="text-nombreE" value="" scale="0.3 0.15 0.3" color="black" text-align="center" text-anchor="align: center"
+                position="-0.15 0.265 -1.9" font-weight="bold"></a-text>
 
-                <a-image id="cuadro1" src="{% static 'ar/Cuadro.png' %}" visible="false" scale="0.84 0.25 0.49" position="0.75 0.1 1.2"
-                    rotation="0 -75 0"></a-image>
-                <a-text id="text1" value="" scale="0.15 0.1 0.1" color="black" text-align="center"
-                    position="0.52 0.09 1" rotation="0 -75 0"></a-text>
-                <a-text id="text3" value="" scale="0.15 0.1 0.1" color="black" text-align="center"
-                    position="0.54 0.06 1.1" rotation="0 -75 0"></a-text>
+                <!--Derecha-->
+                <a-image id="cuadro1D" src="{% static 'ar/Info.png' %}" visible="false" scale="1 1 1" position="2.5 0 0.65"
+                    rotation="0 -90 0"></a-image>
+                <a-text id="textOri" value="" scale="0.33 0.33 0.2" color="black" text-align="center"
+                    position="2.45 -0.03 0.4" rotation="0 -90 0"></a-text>
+                <a-image id="cuadro2D" src="{% static 'ar/Info.png' %}" visible="false" scale="1 1 1" position="2.5 0 -0.65"
+                    rotation="0 90 0"></a-image>
+                <a-text id="textTV" value="" scale="0.33 0.33 0.2" color="black" text-align="center"
+                    position="2.45 -0.03 -0.9" rotation="0 -90 0"></a-text>
 
-                <a-image id="cuadro2" src="{% static 'ar/Cuadro.png' %}" visible="false" scale="0.84 0.25 0.49" position="-0.75 0.1 1.2"
-                    rotation="0 75 0"></a-image>
-                <a-text id="text2" value="" scale="0.16 0.1 0.1" color="black" text-align="center"
-                    position="-0.83 0.1 1.55" rotation="0 75 0"></a-text>
+                <!--Izquierda-->
+                <a-image id="cuadro1I" src="{% static 'ar/Info.png' %}" visible="false" scale="1 1 1" position="-2.5 0 0.65"
+                    rotation="0 -90 0"></a-image>
+                <a-text id="textPro" value="" scale="0.33 0.33 0.2" color="black" text-align="center"
+                    position="-2.45 -0.03 0.92" rotation="0 90 0"></a-text>
+                <a-image id="cuadro2I" src="{% static 'ar/Info.png' %}" visible="false" scale="1 1 1" position="-2.5 0 -0.65"
+                    rotation="0 90 0"></a-image>
+                <a-text id="textCondi" value="" scale="0.3 0.3 0.2" color="black" text-align="center"
+                    position="-2.45 -0.03 -0.27" rotation="0 90 0"></a-text>
+
+                <!--Atras-->
+                <a-image id="cuadro1A" src="{% static 'ar/Info.png' %}" visible="true" scale="1.3 1.3 1" position="0.75 0 3"
+                    rotation="0 0 0"></a-image>
+                <a-text id="textDeta" value="a" scale="0.34 0.34 0.2" color="black" text-align="center"
+                    position="1.14 -0.05 2.9" rotation="0 180 0"></a-text>
+                <a-image id="cuadro2A" src="{% static 'ar/Info.png' %}" visible="true" scale="1.3 1.3 1" position="-0.75 0 3"
+                    rotation="0 180 0"></a-image>
+                <a-text id="textCurio" value="Utilizado en la industria de\ncosmeticos" scale="0.3 0.3 0.2" color="black" text-align="center"
+                    position="-0.24 0 2.9" rotation="0 180 0"></a-text>
             </a-entity>
             <div id="plantas-data" data-plantas="{{ plantas_json }}"></div>
 
@@ -233,24 +257,60 @@
                 //const llamaEntity = document.querySelector('a-entity[gltf-model="Llama.glb"]');
                 const resultText = document.getElementById("result-text");
                 const llamaContainer = document.querySelector('#llama-container');
+                //Centro
                 const llamaEntity = document.querySelector('#llama1');
+                const llamaEntity2 = document.querySelector('#llama2');
                 const cuadroImage = document.querySelector('#cuadro-image1');
-                const cuadroText1 = document.querySelector('#cuadro-text1');
-                const textLength = cuadroText1.length;
+                const textnombreP = document.querySelector('#text-nombreP');
+                const textnombreE = document.querySelector('#text-nombreE');
+                //Derecha
+                const cuadro1D = document.querySelector('#cuadro1D');
+                const cuadro2D = document.querySelector('#cuadro2D');
+                const textOrigen = document.querySelector('#textOri');
+                const textTiempoVida = document.querySelector('#textTV');
+                //Izquierda
+                const cuadro1I = document.querySelector('#cuadro1I');
+                const cuadro2I = document.querySelector('#cuadro2I');
+                const textPropiedad = document.querySelector('#textPro');
+                const textCondicion = document.querySelector('#textCondi');
+                //Atras
+                const cuadro1A = document.querySelector('#cuadro1A');
+                const cuadro2A = document.querySelector('#cuadro2A');
+                const textCuriosidad = document.querySelector('#textCurio');
+                const textDetalle = document.querySelector('#textDeta');
+                //const textLength = cuadroText1.length;
+                const minWidth = 0.5; 
+                const maxWidth = 4;
         
                 var plantasDataElement = document.getElementById("plantas-data");
                 var plantas = JSON.parse(plantasDataElement.getAttribute("data-plantas"));
                 let sihay=false;
-                /*
-                //const cuadroText2 = document.querySelector('#cuadro-text2');
-                const cuadro1 = document.querySelector('#cuadro1');
-                const cuadro2 = document.querySelector('#cuadro2');
-                const Text1 = document.querySelector('#text1');
-                const Text2 = document.querySelector('#text2');
-                const Text3 = document.querySelector('#text3');*/
+                let largo1 = 1;
+                let largo2 = 1;
+                let largoOrigen = 1;
+                let nombrePlanta = "";
+                let nombreEspecie = "";
+                let origen = "";
+                let tiempoVida = "";
+                let propiedades = "";
+                let detalle = "";
+                let curiosidad = "";
+                let condicionAmbiental = "";
+
 
                 for (const planta of plantas) { 
                     if(planta.nombrePlanta == resulta){
+                        nombrePlanta = planta.nombrePlanta;
+                        largo1 = nombrePlanta.length;
+                        nombreEspecie = planta.nombreEspecie;
+                        largo2 = nombreEspecie.length;
+                        origen = planta.origen;
+                        largoOrigen = origen.length;
+                        tiempoVida = planta.tiempoVida;
+                        propiedades = planta.propiedades;
+                        detalle = planta.detalle;
+                        curiosidad = planta.curiosidad;
+                        condicionAmbiental = planta.condicionAmbiental;
                         sihay=true;
                     }
                     // Realiza aquí cualquier operación que necesites con los datos de las plantas
@@ -262,27 +322,83 @@
                 if (sihay) {
                     llamaContainer.emit('move-llama');
                     llamaEntity.setAttribute('visible', 'true');
+                    llamaEntity2.setAttribute('visible', 'true');
+                    //Centro
                     cuadroImage.setAttribute('visible', 'true');
-                    //cuadro1.setAttribute('visible', 'true');
-                    //cuadro2.setAttribute('visible', 'true');
-                    cuadroText1.setAttribute('text', 'value', `${resulta}`);
-                    cuadroText1.setAttribute('look-at', '[camera]');
-                    /*
-                    Text1.setAttribute('text', 'value', `Origen: ${colors[resulta + '1']}`);
-                    Text1.setAttribute('look-at', '[camera]');
-                    Text3.setAttribute('text', 'value', `Tiempo de vida: ${colors[resulta + '3']}`);
-                    Text3.setAttribute('look-at', '[camera]');
-                    Text2.setAttribute('text', 'value', `Curiosidad: ${colors[resulta + '2']}`);
-                    Text2.setAttribute('look-at', '[camera]');*/
+                    cuadroImage.setAttribute('width', largo2/10);
+                    textnombreP.setAttribute('text', 'value', `${nombrePlanta}`);
+                    textnombreP.setAttribute('look-at', '[camera]');
+                    textnombreP.setAttribute('position', {
+                        x: -0.13-largo1/300,
+                        y: 0.32,
+                        z: -1.9,
+                      });
+                    console.log("posi1: ", textnombreP.getAttribute('position'));
+                    textnombreE.setAttribute('text', 'value', `${nombreEspecie}`);
+                    textnombreE.setAttribute('look-at', '[camera]');
+                    textnombreE.setAttribute('position', {
+                        x: -0.13-largo2/200,
+                        y: 0.265,
+                        z: -1.9,
+                      });
+                    console.log("posi2: ", textnombreE.getAttribute('position'));
+                    //Derecha
+                    cuadro1D.setAttribute('visible', 'true');
+                    cuadro2D.setAttribute('visible', 'true');
+                    if(largoOrigen>8) {
+                        textOrigen.setAttribute('position', {
+                            x: 2.45,
+                            y: -0.03,
+                            z: 0.3,
+                          });
+                    } else {
+                        textOrigen.setAttribute('position', {
+                            x: 2.45,
+                            y: -0.03,
+                            z: 0.4,
+                          });
+                    }
+                    textOrigen.setAttribute('text', 'value', `Origen:\n└     ${origen}`);
+                    textOrigen.setAttribute('look-at', '[camera]');
+                    textTiempoVida.setAttribute('text', 'value', `Tiempo de Vida:\n└           ${tiempoVida}`);
+                    textTiempoVida.setAttribute('look-at', '[camera]');
+                    //Izquierda
+                    cuadro1I.setAttribute('visible', 'true');
+                    cuadro2I.setAttribute('visible', 'true');
+                    textPropiedad.setAttribute('text', 'value', `Propiedades:\n└         ${propiedades}`);
+                    textPropiedad.setAttribute('look-at', '[camera]');
+                    textCondicion.setAttribute('text', 'value', `Condicion Ambiental:\n└         ${condicionAmbiental}`);
+                    textCondicion.setAttribute('look-at', '[camera]');
+                    //Atras
+                    cuadro1A.setAttribute('visible', 'true');
+                    cuadro2A.setAttribute('visible', 'true');
+                    textCuriosidad.setAttribute('text', 'value', `${curiosidad}`);
+                    textCuriosidad.setAttribute('look-at', '[camera]');
+                    textDetalle.setAttribute('text', 'value', `${detalle}`);
+                    textDetalle.setAttribute('look-at', '[camera]');
+                    
                 } else {
+                    //Centro
                     llamaEntity.setAttribute('visible', 'false');
+                    llamaEntity2.setAttribute('visible', 'false');
                     cuadroImage.setAttribute('visible', 'false');
-                    //cuadro1.setAttribute('visible', 'false');
-                    //cuadro2.setAttribute('visible', 'false');
-                    cuadroText1.setAttribute('text', 'value', '');
-                    //Text1.setAttribute('text', 'value', ``);
-                    //Text2.setAttribute('text', 'value', ``);
-                    //Text3.setAttribute('text', 'value', ``);
+                    textnombreP.setAttribute('text', 'value', '');
+                    textnombreE.setAttribute('text', 'value', '');
+                    //Derecha
+                    cuadro1D.setAttribute('visible', 'false');
+                    cuadro2D.setAttribute('visible', 'false');
+                    textOrigen.setAttribute('text', 'value', ``);
+                    textTiempoVida.setAttribute('text', 'value', ``);
+                    //Izquierda
+                    cuadro1I.setAttribute('visible', 'false');
+                    cuadro2I.setAttribute('visible', 'false');
+                    textPropiedad.setAttribute('text', 'value', ``);
+                    textCondicion.setAttribute('text', 'value', ``);
+                    //Atras
+                    cuadro1A.setAttribute('visible', 'false');
+                    cuadro2A.setAttribute('visible', 'false');
+                    textCuriosidad.setAttribute('text', 'value', ``);
+                    textDetalle.setAttribute('text', 'value', ``);
                 }
 
                 resultText.textContent = resulta;

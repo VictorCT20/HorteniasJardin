@@ -55,10 +55,11 @@ class ArView(View):
                 'nombrePlanta': planta.nombrePlanta,
                 'nombreEspecie': planta.nombreEspecie,
                 'tiempoVida': planta.tiempoVida,
-                'Imagen': planta.Imagen,
+                'origen': planta.origen,
                 'propiedades': f"{planta.propiedades}",
                 'detalle': f"{planta.detalle}",
                 'curiosidad': f"{planta.curiosidad}",
+                'condicionAmbiental': f"{planta.condicionAmbiental}",
             }
             for planta in plantas
         ]
@@ -99,10 +100,25 @@ class ReservaView(View):
         usuario_id = request.session.get('usuario_id') 
         visita_id = request.session.get('visita_id') 
         plantas = Planta.objects.all()
+        plantas_data = [
+            {
+                'nombrePlanta': planta.nombrePlanta,
+                'nombreEspecie': planta.nombreEspecie,
+                'tiempoVida': planta.tiempoVida,
+                'origen': planta.origen,
+                'propiedades': f"{planta.propiedades}",
+                'detalle': f"{planta.detalle}",
+                'curiosidad': f"{planta.curiosidad}",
+                'condicionAmbiental': f"{planta.condicionAmbiental}",
+            }
+            for planta in plantas
+        ]
+        plantas_json = json.dumps(plantas_data)
         context={
             'usuario_id':usuario_id, 
             'visita_id':visita_id,
-            'plantas':plantas
+            'plantas':plantas,
+            'plantas_json':plantas_json
         } 
         return render(request, 'reservas.html', context) 
     def post(self, request, *args, **kwargs):

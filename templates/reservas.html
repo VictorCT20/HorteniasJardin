@@ -10,7 +10,10 @@
         /* Estilos para la tabla y el botón aquí */
         table {
         width: 80%;
-        margin: 150px auto;
+        margin-top: 20px;    /* Margen superior */
+        margin-bottom: 70px; /* Margen inferior */
+        margin-left: auto;   /* Margen izquierdo (auto para centrar horizontalmente) */
+        margin-right: auto;
         border-collapse: collapse;
         background-color: #026ea0d4;
         box-shadow: 0 5px 6px rgba(0, 202, 195, 0.666);
@@ -119,7 +122,16 @@
     <div class="close-icon" id="close-icon">
         <i class="fas fa-times"></i>
     </div>
-
+    <br><br><br>
+    <section class="about-section text-center" id="about" style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+        <div class="container px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-lg-8">
+                    <h2 class="text-white mb-4">Selecciona la planta e ingresa la cantidad que quiera</h2>
+                </div>
+            </div>
+        </div>
+    </section>
     <!-- Resto de tu contenido HTML -->
     <table>
         <caption>Tabla de plantas</caption>
@@ -137,15 +149,15 @@
                 <td>{{ planta.nombrePlanta }}</td>
                 <td>{{ planta.nombreEspecie }}</td>
                 <td class="quantity-buttons">
-                <button class="quantity-button" onclick="decrementQuantity({{planta.id}})">-</button>
-                <span id="quantity-{{planta.id}}">0</span>
-                <button class="quantity-button" onclick="incrementQuantity({{planta.id}})">+</button>
+                    <button class="quantity-button" onclick="decrementQuantity({{planta.id}})">-</button>
+                    <span id="quantity-{{planta.id}}">0</span>
+                    <button class="quantity-button" onclick="incrementQuantity({{planta.id}})">+</button>
                 </td>
                 <td>
                     <input value={{planta.id}} type="hidden" id="planta_idSelec{{planta.id}}" name="planta_idSelec{{planta.id}}">
                     <input value=0 type="hidden" id="cantidadSelec{{planta.id}}" name="cantidadSelec{{planta.id}}">
                     <input value={{visita_id}} type="hidden" id="visita_idSelec{{planta.id}}" name="visita_idSelec{{planta.id}}">
-                    <input class="form-check-input" onclick="datos({{planta.id}})" type="radio" name="flexRadioDefault" id="flexRadioDefault">
+                    <input class="form-check-input" onclick="datos({{planta.id}})" type="radio" name="flexRadioDefault" id="flexRadioDefault" checked>
                     <label class="form-check-label" for="flexRadio{{planta.id}}"></label>  
                 </td>
             </tr>
@@ -153,18 +165,31 @@
         </tbody>
     </table>
 
-    <div class="center-btn">
+    <div class="center-btn" style="margin-bottom: 50px;">
         <form method="POST">
             {% csrf_token %}
-            <input type="hidden" id="planta_id" name="planta_id">
+            <input value=31 type="hidden" id="planta_id" name="planta_id">
             <input type="hidden" id="cantidadSele" name="cantidadSele">
-            <input type="hidden" id="visita_id" name="visita_id">
-            <button onclick="reserva()" type="submit" class="btn btn-primary" id="seleccionado">Reservar</button>
+            <input value={{visita_id}} type="hidden" id="visita_id" name="visita_id">
+            <button type="submit" class="btn btn-primary" id="seleccionado" style="display: none;">Reservar</button>
         </form>
-        
     </div>
+    <div id="plantas-data" data-plantas="{{ plantas_json }}"></div>
 
-    <script>
+    <script type="text/javascript">
+        var plantasDataElement = document.getElementById("plantas-data");
+        var plantas = JSON.parse(plantasDataElement.getAttribute("data-plantas"));
+        var selec = 31;
+        var cantidad = 0;
+
+        // Evento de carga de la página
+        window.addEventListener('load', function () {
+            init();
+        });
+
+        async function init() {
+            window.requestAnimationFrame(loop);
+        }
 
         // Función para decrementar la cantidad
         function decrementQuantity(index) {
@@ -205,20 +230,33 @@
         }
         });
 
+        //Bucle para 
+        async function loop() {
+            for (let i = 1; i <= plantas.length; i++) {
+                if(selec == i){
+                    // Obtiene el elemento con el ID correspondiente a cada planta
+                    let quantityElement = document.getElementById(`quantity-${i}`);
+                    let cantidad1 = parseInt(quantityElement.textContent);
+                    cantidad = cantidad1;
+                    document.getElementById("cantidadSele").value = cantidad;
+                }
+            }
+            /*
+            console.log("cantidad: ", document.getElementById("cantidadSele").value );
+            console.log("plantaId: ", document.getElementById("planta_id").value);
+            console.log("visitaId: ", document.getElementById("visita_id").value);*/
+            // Oculta o muestra el botón según el valor de suma
+            let botonReservar = document.getElementById('seleccionado');
+            botonReservar.style.display = cantidad === 0 ? 'none' : 'inline-block';
+            window.requestAnimationFrame(loop);
+        }
+
         function datos(index){
+            selec = index;
             let plantaId = document.getElementById('planta_idSelec' + index).value;
-            let cantidad = document.getElementById('cantidadSelec' + index).value;
-            let visitaId = document.getElementById('visita_idSelec' + index).value;
+            cantidad = document.getElementById('cantidadSelec' + index).value;
             document.getElementById("planta_id").value = plantaId;
             document.getElementById("cantidadSele").value = cantidad;
-            document.getElementById("visita_id").value = visitaId;
-            /*
-            let plantaId1 = document.getElementById('planta_id');
-            let cantidad1 = document.getElementById('cantidadSele');
-            let visitaId1 = document.getElementById('visita_id');
-            console.log("planta-", plantaId1.value);
-            console.log("cantidad-", cantidad1.value);
-            console.log("visita-", visitaId1.value);*/
         }
     </script>
 </body>
