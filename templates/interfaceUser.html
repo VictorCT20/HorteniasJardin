@@ -15,20 +15,36 @@
     </style>
     <script>
         function textUsu(texto) {
-            const alfanumericoRegex = /^[a-zA-Z0-9]+$/;
+            const alfanumericoRegex = /^[a-zA-Z]+$/;
             return alfanumericoRegex.test(texto) && texto.length >= 3 && texto.length < 12;
             }
         function tieneCaracteresEspeciales(texto) {
             const caracteresEspecialesRegex = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
             return caracteresEspecialesRegex.test(texto);
             }
+        function validarFormulario() {
+            var nombre = document.getElementById('name').value;
+            var apellido = document.getElementById('apellido').value;
+
+            if (!textUsu(nombre)) {
+                alert('El nombre no cumple con los requisitos.');
+                return false;
+            }
+
+            if (!textUsu(apellido)) {
+                alert('El apellido no cumple con los requisitos.');
+                return false;
+            }
+
+            return true;
+        }
     </script>
 </head>
 
 <body id="fondo">
     <div class="wrapper">
         <div class="bubbles"></div>
-        <form method="POST" class="form">
+        <form method="POST" class="form" onsubmit="return validarFormulario()">
             {% csrf_token %}
             <h1 class="title">Bienvenido</h1>
             <div class="inp">
@@ -39,7 +55,7 @@
                 <input type="text" name="apellido" id="apellido" class="input" placeholder="Apellidos" required>
                 <i class="fa-solid fa-lock"></i>
             </div>
-            <button class="submit">Comenzar</button>
+            <button type="submit" class="submit">Comenzar</button>
         </form>
     </div>
 </body>

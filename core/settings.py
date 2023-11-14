@@ -102,8 +102,19 @@ DATABASES = {
         'OPTIONS': {
             'sslmode': 'require',
         }
-    }
+    },
+    'test': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'dbjardin',
+        'USER': 'dbjardin_user',
+        'PASSWORD': 'srPpFl1xIRlMLqGC6zSffwKcMXvpVZVQ',
+        'HOST': 'dpg-cl36priuuipc73881k0g-a.oregon-postgres.render.com',
+        'PORT': '5432',
+    },
+    
 }
+
+LOGIN_REDIRECT_URL = '/'
 
 
 # Password validation
