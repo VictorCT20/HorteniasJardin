@@ -15,7 +15,7 @@
     </style>
     <script>
         function textUsu(texto) {
-            const alfanumericoRegex = /^[a-zA-Z]+$/;
+            const alfanumericoRegex = /^[a-zA-Z\s]+$/;
             return alfanumericoRegex.test(texto) && texto.length >= 3;
             }
         function tieneCaracteresEspeciales(texto) {
