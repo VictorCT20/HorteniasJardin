@@ -9,6 +9,7 @@ from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth import authenticate, login
 from django.utils.html import escapejs
 import json
+import re
 
 
 # Define la función de prueba para verificar si el usuario es administrador
@@ -154,7 +155,12 @@ class UserRegisterView(View):
         if request.method == 'POST':
             name = request.POST['name']
             apellido = request.POST['apellido']
-            
+
+            # Verificar restricciones en nombre y apellido
+            if not (name.isalpha() and apellido.isalpha() and len(name) > 3 and len(apellido) > 3):
+                context = {'error_message': 'Nombre y apellido deben contener solo letras y tener al menos 3 caracteres.'}
+                return render(request, 'interfaceUser.html', context)
+
             nuevo_usuario = Usuario(
                 name=name,
                 apellido=apellido
@@ -165,7 +171,7 @@ class UserRegisterView(View):
             request.session['usuario_id'] = usuario_id
             return redirect('ar')
 
-        context={ }
+        context = {}
         return render(request, 'interfaceUser.html', context)
         
 @method_decorator(login_required, name='dispatch')
@@ -180,17 +186,22 @@ class EncuestaView(View):
         if request.method == 'POST':
             usuario_id = request.POST['usuario_id']
             numero_estrellas = request.POST['numero_estrellas']
-            comentario = request.POST['comentar']
-            usuario = get_object_or_404(Usuario, id=usuario_id) 
+            comentario = request.POST['comentario']
+            usuario = get_object_or_404(Usuario, id=usuario_id)
+
+            # Verificar restricciones en numero_estrellas y comentario
+            if not (re.match("^[a-zA-Z0-9 !?¡'¿@.:,;-_]+$", comentario)):
+                context = {'error_message': 'Número de estrellas y comentario deben contener letras y los caracteres específicos permitidos.'}
+                return render(request, 'Estrellas.html', context)
 
             # Crea una instancia de Calificacion y guárdala en la base de datos
             calificacion = Calificacion(
-                numeroEstrellas=numero_estrellas, 
-                comentario=comentario, 
-                usuario=usuario) 
+                numeroEstrellas=numero_estrellas,
+                comentario=comentario,
+                usuario=usuario)
             calificacion.save()
 
-            return redirect('ar')  
+            return redirect('ar')
 
-        context={ }
+        context = {}
         return render(request, 'Estrellas.html', context)

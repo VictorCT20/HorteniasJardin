@@ -7,8 +7,9 @@ from django.test import TestCase, Client
 import unittest
 from django.contrib.auth.models import User
 from django.urls import reverse
-from selenium import webdriver
-from django.test import LiveServerTestCase
+
+def es_admin(user):
+    return user.is_admin
 class LoginTest(TestCase):
     def setUp(self):
         # Configurar un cliente para realizar solicitudes HTTP
@@ -40,19 +41,19 @@ class LoginTest(TestCase):
         self.assertEqual(response_after_login.status_code, 200) 
 
 class UserRegisterViewTest(TestCase):
-
-    def setUp(self):
+    def setUpUser(self):
         self.client = Client()
         self.cuenta = Cuenta.objects.create_user(username='user', password='usuario2023')
         self.client.login(username='user', password='usuario2023')
     
-    def test_get_success(self):
-      
+    def test_get_success_user(self):
         response = self.client.get(reverse('userEntry'))
-        
         self.assertEquals(response.status_code, 200)
 
-    def test_valid_post(self):
+    def test_valid_post_user(self):
+        # Iniciar sesión antes de realizar la solicitud
+        login_result = self.client.login(username='user', password='usuario2023')
+        print(f"Login result: {login_result}")
         url = reverse('userEntry')
         data = {
             'name': 'Juan',
@@ -65,68 +66,63 @@ class UserRegisterViewTest(TestCase):
         
         # Verificar usuario creado
         self.assertTrue(Usuario.objects.filter(name='Juan').exists()) 
+    def test_invalid_post_user(self):
+        # Iniciar sesión antes de realizar la solicitud
+        login_result = self.client.login(username='admin', password='Hortensias2023')
+        print(f"Login result: {login_result}")
 
-class TestMyWebPage(unittest.TestCase):
-    def setUp(self):
-        # Configurar el driver de Selenium (asegúrate de tener el controlador en tu PATH)
-        self.driver = webdriver.Chrome()
+        # Nombre inválido
+        data = {
+            'name': '12',
+            'apellido': 'Perez'
+        }
 
-    def tearDown(self):
-        # Cerrar el navegador al finalizar la prueba
-        self.driver.close()
+        response = self.client.post(reverse('userEntry'), data, follow=True)
+        # Redirigir de nuevo al formulario de entrada de usuario
+        self.assertRedirects(response, reverse('userEntry'))
 
-    def test_validar_formulario(self):
-        # Abrir la página web
-        self.driver.get("http://jardinhorten.onrender.com/registro")
+        # Apellido inválido
+        data = {
+            'name': 'Juan',
+            'apellido': '123'
+        }
 
-        # Encontrar el campo de comentario y enviar datos inválidos
-        comentario_input = self.driver.find_element_by_id("comentar")
-        comentario_input.send_keys("Comentario con caracteres no permitidos #$%^")
+        response = self.client.post(reverse('userEntry'), data, follow=True)
 
-        # Encontrar el botón de enviar y hacer clic
-        submit_button = self.driver.find_element_by_xpath("//button[@class='submit']")
-        submit_button.click()
+        self.assertRedirects(response, reverse('userEntry'))
 
-        # Validar que se muestra la alerta de caracteres no permitidos
-        alert = self.driver.switch_to.alert
-        self.assertEqual(alert.text, "El comentario no cumple con los requisitos.")
-        alert.accept()
-
-if __name__ == "__main__":
-    unittest.main()
 class CalificacionViewTest(TestCase):
-
     def setUp(self):
         self.client = Client()
         self.cuenta = Cuenta.objects.create_user(username='user', password='usuario2023')
         self.client.login(username='user', password='usuario2023')
-        # Crear un usuario de ejemplo
-        self.usuario = Usuario.objects.create(id=1,name='Ejemplo', apellido='Usuario')
-        
-    def test_get_successCali(self):
-      
-        response = self.client.get(reverse('valorar'))
-        
-        self.assertEquals(response.status_code, 200)
+        self.usuario = Usuario.objects.create(name='John', apellido='Doe')
 
-    def test_creacion_calificacion(self):
-        # Prueba de creación de calificación con un usuario existente
-        response = self.client.post(reverse('valorar'), {'usuario_id': self.usuario.id, 'numero_estrellas': 4, 'comentar': '¡Gran experiencia!'})
-        self.assertEqual(response.status_code, 302)  # Debería redirigir después de un POST exitoso
-        self.assertRedirects(response, reverse('ar'))
+    def test_valid_calificacion_submission(self):
+        url = reverse('valorar')
+        data = {
+            'usuario_id': self.usuario.id,
+            'numero_estrellas': '5',
+            'comentario': 'Buen servicio'
+        }
 
-        # Verificar que la calificación se ha creado
-        calificacion = Calificacion.objects.get(usuario=self.usuario)
-        self.assertIsNotNone(calificacion)
-        self.assertEqual(calificacion.numeroEstrellas, 4)
-        self.assertEqual(calificacion.comentario, '¡Gran experiencia!')
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, 302)  # Debería redirigir a 'ar'
 
-    def test_creacion_calificacion_con_comentario_no_permitido(self):
-        # Prueba de creación de calificación con un comentario no permitido
-        response = self.client.post(reverse('valorar'), {'usuario_id': self.usuario.id, 'numero_estrellas': 3, 'comentar': 'Comentario invalido!@#$'})
-        self.assertEqual(response.status_code, 200)  # Debería permanecer en la misma página
-        self.assertContains(response, 'El comentario no cumple con los requisitos.')
+        # Verificar que la Calificacion se ha creado correctamente
+        self.assertTrue(Calificacion.objects.filter(usuario=self.usuario, numeroEstrellas='5', comentario='Buen servicio').exists())
 
-        # Verificar que la calificación no se ha creado con un comentario no permitido
-        calificacion_invalida = Calificacion.objects.filter(usuario=self.usuario, numeroEstrellas=3, comentario='Comentario invalido!@#$')
-        self.assertFalse(calificacion_invalida.exists())
+    def test_invalid_calificacion_submission(self):
+        # Comentario con caracteres especiales
+        data = {
+            'usuario_id': self.usuario.id,
+            'numero_estrellas': '3',
+            'comentario': 'Mal servicio!@#$%^&*()'
+        }
+
+        response = self.client.post(reverse('valorar'), data, follow=True)
+        # Redirigir de nuevo al formulario de calificación
+        self.assertRedirects(response, reverse('valorar'))
+
+        # Verificar que no se haya creado una calificación con información no válida
+        self.assertFalse(Calificacion.objects.filter(usuario=self.usuario, numeroEstrellas='3', comentario='Mal servicio!@#$%^&*()').exists())
