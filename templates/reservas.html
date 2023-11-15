@@ -147,7 +147,6 @@
             {% for planta in plantas %}
             <tr>
                 <td>{{ planta.nombrePlanta }}</td>
-                <td>{{ planta.nombreEspecie }}</td>
                 <td class="quantity-buttons">
                     <button class="quantity-button" onclick="decrementQuantity({{planta.id}})">-</button>
                     <span id="quantity-{{planta.id}}">0</span>
