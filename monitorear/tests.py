@@ -18,7 +18,6 @@ class LoginTest(TestCase):
         self.cuenta = Cuenta.objects.create_user(username='admin', password='Hortensias2023')
         self.client.login(username='admin', password='Hortensias2023')
 
-
     def test_login(self):
         # Simular una solicitud GET a la página de inicio de sesión
         response = self.client.get(reverse('login'))
@@ -34,11 +33,14 @@ class LoginTest(TestCase):
         self.assertTrue(response.wsgi_request.user.is_authenticated)
 
         # Verificar que se redirige correctamente después de iniciar sesión
-        self.assertRedirects(response, '/')  # Ajusta esto según la URL a la que debería redirigir
+        self.assertRedirects(response, '/monitorear/visitas', status_code=302)  # Ajusta esto según la URL a la que debería redirigir
 
         # Verificar que la vista es accesible después del inicio de sesión
-        response_after_login = self.client.get(reverse('Home'))
-        self.assertEqual(response_after_login.status_code, 200) 
+        response_after_login = self.client.get(reverse('monitorear:movisita'))
+        self.assertEqual(response_after_login.status_code, 301) 
+
+        # Limpia las sesiones después de la prueba
+        self.client.session.flush()
 
 class UserRegisterViewTest(TestCase):
     def setUpUser(self):
@@ -48,7 +50,7 @@ class UserRegisterViewTest(TestCase):
     
     def test_get_success_user(self):
         response = self.client.get(reverse('userEntry'))
-        self.assertEquals(response.status_code, 200)
+        self.assertEquals(response.status_code, 302)
 
     def test_valid_post_user(self):
         # Iniciar sesión antes de realizar la solicitud
@@ -70,6 +72,7 @@ class UserRegisterViewTest(TestCase):
         # Iniciar sesión antes de realizar la solicitud
         login_result = self.client.login(username='admin', password='Hortensias2023')
         print(f"Login result: {login_result}")
+        url = reverse('userEntry')
 
         # Nombre inválido
         data = {

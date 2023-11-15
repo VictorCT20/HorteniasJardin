@@ -114,6 +114,7 @@ DATABASES = {
     
 }
 
+LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/monitorear/visitas'
 
 

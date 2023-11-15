@@ -201,7 +201,7 @@ class EncuestaView(View):
                 usuario=usuario)
             calificacion.save()
 
-            return redirect('ar')
+            return redirect('Home')
 
         context = {}
         return render(request, 'Estrellas.html', context)
