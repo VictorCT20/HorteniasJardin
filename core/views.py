@@ -23,11 +23,9 @@ class QrView(View):
     def post(self, request, *args, **kwargs):
         if request.method == 'POST':
             content = request.POST.get('content')
-            print("content: " + content)
             if(content == 'usuario logeado para usar ar'):
                 user = authenticate(username='user', password='usuario2023')
                 login(request, user)
-                print('es el qr correcto')
                 return redirect('userEntry')
             else:
                 print('no es el qr correcto') 

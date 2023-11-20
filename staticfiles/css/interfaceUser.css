@@ -1,13 +1,12 @@
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Acme', sans-serif; 
+    font-size: 20px;
     margin: 0;
     padding: 0;
-    background: url("https://i.imgur.com/dC6HvFB.jpg");
-    background-repeat: no-repeat;
-    background-size: cover; /* Cambiado a "cover" */
+    background-size: 100% 120%;
     background-color: rgba(6, 143, 167, 0.3);
-    border-radius: 50%; /* Cambiado a "50%" */
-    box-shadow: 0 0 50px rgba(255, 255, 255, 0.5); /* Cambiado a "50px" */
+    border-radius: 150%;
+    box-shadow: 0 0 50% rgba(255, 255, 255, 0.5); 
     background-position: center;
 }
 
@@ -25,14 +24,14 @@ body {
     border-radius: 20px;
     backdrop-filter: blur(20px);
     padding: 10px;
-    width: 35%;
-    height: 300px;
+    width: 100%;
+    height: 280px;
 }
 
 .title {
     text-align: center;
     font-size: 2em;
-    background-image: linear-gradient(to right, #2e079b, #0d8dd6, #990278, #2f69b4, #cf3636); 
+    background-image: linear-gradient(to right, #dbd6eb, #7e8183, #d3c8ce, #889099, #b1a8a8); 
     background-size: 100%;
     background-clip: text;
     -webkit-background-clip: text;
@@ -54,34 +53,45 @@ body {
 .submit {
     width: 100%;
     height: 30px;
-  
     border: none;
     border-radius: 5px;
-    background: linear-gradient(45deg, rgb(228, 96, 210), #a704d4);
+    background: linear-gradient(45deg, rgb(96, 109, 228), rgb(55, 52, 218));
     color: #fff;
     cursor: pointer;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-}
-
-
-.footer {
-    text-align: center;
-    color: #fa459a;
+    font-size: medium;
     text-decoration: none;
-    font-family: 'Times New Roman', Times, serif;
+}
+.footer {
+
+    text-align: center;
+    color: #f0a3fa;
+    text-decoration: none;
+    font-family: 'Acme', sans-serif;
     font-size: medium;
 }
 
 @media (max-width: 800px) {
     .form {
         width: 80%;
-        height: 60%;
+        height: 40%;
     }
     .body{
         width: 50%;
+        height: 50%;        
+    }
+}
+
+@media (min-height: 801px) {
+    .form {
+        width: 80%;
+        height: 30%;
+    }
+    .body{
+        width: 510%;
         height: 50%;        
     }
 }
