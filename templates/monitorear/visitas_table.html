@@ -1,0 +1,7 @@
+{% for visita in visitas %}
+    <tr>
+        <th scope="row">{{ visita.id }}</th>
+        <td>{{ visita.usuario.name }} {{ visita.usuario.apellido }}</td>
+        <td>{{ visita.fecha|date:"SHORT_DATETIME_FORMAT" }}</td>
+    </tr>
+{% endfor %}

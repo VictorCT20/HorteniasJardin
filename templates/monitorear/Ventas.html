@@ -10,6 +10,28 @@
     <link rel="icon" type="image/x-icon" href="assets/flor.ico" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#btnConfirmar').click(function () {
+                // Obtén la fecha seleccionada
+                var selectedDate = $('#fechaFiltro').val();
+        
+                $.ajax({
+                    type: 'GET',
+                    url: '{% url "monitorear:filtrar_ventas" %}',
+                    data: {'fecha': selectedDate},
+                    success: function (data) {
+                        // Actualiza el contenido de la tabla con los datos filtrados
+                        $('#tablaVentasFiltradas').html(data);
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    }
+                });
+            });
+        });
+    </script>
 </head>
 
 <body style="background-color: #b2dafa;">
@@ -33,8 +55,14 @@
         </div>
     </header>
     <div class="container col-md-10" style="margin-top: 20px;">
-        <h2 style="text-align: center; font-family: cursive;font-size: x-large; font-weight: bold;">VENTAS
-            REGISTRADAS</h2>
+        <h2 style="text-align: center; font-family: cursive; font-size: x-large; font-weight: bold; margin-bottom: 20px;">VENTAS REGISTRADAS</h2>
+        <label class="text-white" style="font-weight: bold;" for="fechaFiltro">Selecciona una fecha:</label>
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <div class="flex-grow-1 me-2">
+                <input type="date" id="fechaFiltro" class="form-control">
+            </div>
+            <button type="button" id="btnConfirmar" class="btn btn-primary">Confirmar</button>
+        </div>
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -44,14 +72,14 @@
                     <th scope="col">Cantidad</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="tablaVentasFiltradas">
                 {% for venta in ventas %}
-                <tr>
-                    <th scope="row">{{ venta.id }}</th>
-                    <td>{{ venta.visita.usuario.name }} {{ venta.visita.usuario.apellido }}</td>
-                    <td>{{ venta.planta.nombrePlanta }}</td>
-                    <td>{{ venta.cantidad }}</td>
-                </tr>
+                    <tr>
+                        <th scope="row">{{ venta.id }}</th>
+                        <td>{{ venta.visita.usuario.name }} {{ venta.visita.usuario.apellido }}</td>
+                        <td>{{ venta.planta.nombrePlanta }}</td>
+                        <td>{{ venta.cantidad }}</td>
+                    </tr>
                 {% endfor %}
             </tbody>
         </table>

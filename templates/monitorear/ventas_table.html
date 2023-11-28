@@ -1,0 +1,8 @@
+{% for venta in ventas %}
+    <tr>
+        <th scope="row">{{ venta.id }}</th>
+        <td>{{ venta.visita.usuario.name }} {{ venta.visita.usuario.apellido }}</td>
+        <td>{{ venta.planta.nombrePlanta }}</td>
+        <td>{{ venta.cantidad }}</td>
+    </tr>
+{% endfor %}

@@ -1,0 +1,7 @@
+{% for calificacion in calificaciones %}
+<tr>
+    <th scope="row">{{ calificacion.usuario.name }} {{ calificacion.usuario.apellido }}</th>
+    <td>{{ calificacion.numeroEstrellas }}</td>
+    <td>{{ calificacion.comentario }}</td>
+</tr>
+{% endfor %}
