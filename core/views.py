@@ -184,7 +184,7 @@ class EncuestaView(View):
         if request.method == 'POST':
             usuario_id = request.POST['usuario_id']
             numero_estrellas = request.POST['numero_estrellas']
-            comentario = request.POST['comentario']
+            comentario = request.POST['comentar']
             usuario = get_object_or_404(Usuario, id=usuario_id)
 
             # Verificar restricciones en numero_estrellas y comentario
