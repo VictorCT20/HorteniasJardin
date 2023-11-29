@@ -155,7 +155,7 @@ class UserRegisterView(View):
             apellido = request.POST['apellido']
 
             # Verificar restricciones en nombre y apellido
-            if not (name.isalpha() and apellido.isalpha() and len(name) > 3 and len(apellido) > 3):
+            if not (name.isalpha() and apellido.isalpha() and len(name) >= 3 and len(apellido) >= 3):
                 context = {'error_message': 'Nombre y apellido deben contener solo letras y tener al menos 3 caracteres.'}
                 return render(request, 'interfaceUser.html', context)
 
