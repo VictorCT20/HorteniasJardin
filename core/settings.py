@@ -90,13 +90,13 @@ SESSION_COOKIE_AGE = 5400
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        #'NAME': 'dbjardin',
+        #'NAME': 'dbjardin_rcb8',
         'NAME': 'dbjardin_pset',
-        #'USER': 'dbjardin_user',
+        #'USER': 'jardindb',
         'USER': 'victorupn',
-        #'PASSWORD': 'srPpFl1xIRlMLqGC6zSffwKcMXvpVZVQ',
+        #'PASSWORD': 'a73DggLeXKikiqeUwtMOS56TA65A9PL5',
         'PASSWORD': 'omM4vtNC9K3GfyyiAnCGdAPGTTYMFKL3',
-        #'HOST': 'dpg-cl36priuuipc73881k0g-a.oregon-postgres.render.com',
+        #'HOST': 'dpg-clj2kfcm411s73dvf6og-a.oregon-postgres.render.com',
         'HOST': 'dpg-cl6mgn472pts73adngdg-a.oregon-postgres.render.com',
         'PORT': 5432,
         'OPTIONS': {
